@@ -1,4 +1,4 @@
-const OfficeSpaceModel = require('../models/officeSpace');
+const SlotModel = require('../models/slot.model');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError } = require('../errors/index');
 const multer= require('multer');
@@ -28,26 +28,26 @@ const attachFile = async (req, res, next) => {
     var pics = [];
     const {query, body, files} = req;
 
-    // Check if there is an officeSpace already
+    // Check if there is an slot already
     if (query.id) {
-        const  existingOfficeSpace = await OfficeSpaceModel.findById(query.id);
+        const  existingSlot = await SlotModel.findById(query.id);
         
-        if ( existingOfficeSpace &&  existingOfficeSpace.pictures.length !== 0) {
-            pics =  existingOfficeSpace.pictures;
+        if ( existingSlot &&  existingSlot.pictures.length !== 0) {
+            pics =  existingSlot.pictures;
             if (files.length !== 0) {
-                pics =  existingOfficeSpace.pictures;
+                pics =  existingSlot.pictures;
                 files.forEach(file => {
                     pics.push(file.filename); 
                 });
             }
-        } else if ( existingOfficeSpace &&  existingOfficeSpace.pictures.length === 0) {
+        } else if ( existingSlot &&  existingSlot.pictures.length === 0) {
             if (files.length !== 0) {
-                pics =  existingOfficeSpace.pictures;
+                pics =  existingSlot.pictures;
                 files.forEach(file => {
                     pics.push(file.filename); 
                 });
             }
-        } else if (!existingOfficeSpace) {
+        } else if (!existingSlot) {
             throw new BadRequestError(`Not found!`);
         }
     } else {
@@ -63,82 +63,62 @@ const attachFile = async (req, res, next) => {
 }
 
 const add = async (req, res) => {
-    const data = req.body;
-    const  officeSpace = await OfficeSpaceModel.create(req.body);
-    res.status(StatusCodes.CREATED).json({ message: 'Successfully added', officeSpace })
+    const  slot = await SlotModel.create(req.body);
+    res.status(StatusCodes.CREATED).json({ message: 'Successfully added', slot })
 };
 
 const getAll = async(req, res) => {
-    const  officeSpaces = await OfficeSpaceModel.find({})
-    res.status(StatusCodes.OK).json({ nbHits:  officeSpaces.length,  officeSpaces })
+    const  slots = await SlotModel.find({})
+    res.status(StatusCodes.OK).json({ slots })
 };
 
 const findById = async(req, res) => {
-    const  officeSpaceId = req.query.id;
-    const  officeSpace = await OfficeSpaceModel.findById( officeSpaceId);
-    if(!officeSpace){
-        throw new BadRequestError(`OfficeSpace not found!`)
+    const  slotId = req.query.id;
+    const  slot = await SlotModel.findById( slotId);
+    if(!slot){
+        throw new BadRequestError(`Slot not found!`)
     }
-    res.status(StatusCodes.OK).json({ officeSpace })
+    res.status(StatusCodes.OK).json({ slot })
 };
 
-const findByOwnerId = async(req, res) => {
-    const ownerId = req.query.ownerId;
-    const officeSpaces = await OfficeSpaceModel.find({ ownerId: ownerId });
-    res.status(StatusCodes.OK).json({ nbHits:  officeSpaces.length,  officeSpaces });
+const findBySpaceId = async(req, res) => {
+    const spaceId = req.query.spaceId;
+    const slots = await SlotModel.find({ spaceId: spaceId });
+    res.status(StatusCodes.OK).json({ slots });
 };
 
-const findByLocation = async(req, res) => {
-    const location = req.query.location;
-    let  officeSpaces = [];
-    const allOfficeSpaces = await OfficeSpaceModel.find({});
 
-    allOfficeSpaces.forEach(officeSpace => {
-        if ( officeSpace.location === location ||  officeSpace.location.includes(location)) {
-            officeSpaces.push(officeSpace);
-        }
-    })
-
-    res.status(StatusCodes.OK).json({ nbHits: officeSpaces.length, officeSpaces });
-};
-
-const findByMapCoordinates = async(req, res) => {
-    const mapCoordinates = req.query.mapCoordinates;
-    const officeSpaces = await OfficeSpaceModel.find({ mapCoordinates: mapCoordinates });
-    res.status(StatusCodes.OK).json({ nbHits:  officeSpaces.length,  officeSpaces });
+const findByOccupantId = async(req, res) => {
+    const occupantId = req.query.occupantId;
+    const slots = await SlotModel.find({ occupantId: occupantId });
+    res.status(StatusCodes.OK).json({ slots });
 };
 
 const findByStatus = async(req, res) => {
     const status = req.query.status;
-    const officeSpaces = await OfficeSpaceModel.find({ status: status });
-    res.status(StatusCodes.OK).json({ nbHits: officeSpaces.length, officeSpaces });
-};
-
-const findByPostId = async(req, res) => {
-    const postId = req.query.postId;
-    const  officeSpaces = await OfficeSpaceModel.find({ postId: postId });
-    res.status(StatusCodes.OK).json({ nbHits:  officeSpaces.length,  officeSpaces });
+    const slots = await SlotModel.find({ status: status });
+    res.status(StatusCodes.OK).json({ nbHits: slots.length, slots });
 };
 
 const edit = async(req, res) => {
-    const  officeSpace = req.body;
-    const  officeSpaceId = req.query.id;
+    const  slot = req.body;
+    const  slotId = req.query.id;
     
-    const updated = await OfficeSpaceModel.findByIdAndUpdate({ _id:  officeSpaceId }, officeSpace);
-    const updatedOfficeSpace = await OfficeSpaceModel.findById(updated._id);
+    const updated = await SlotModel.findByIdAndUpdate({ _id:  slotId }, slot);
+    const updatedSlot = await SlotModel.findById(updated._id);
 
-    res.status(StatusCodes.OK).json({ message: 'Updated', officeSpace: updatedOfficeSpace })
+    res.status(StatusCodes.OK).json({ message: 'Updated', slot: updatedSlot })
 };
 
 const remove = async(req, res) => {
-    const officeSpaceId = req.query.id;
-    const deletedOfficeSpace = await OfficeSpaceModel.findByIdAndRemove({ _id: officeSpaceId});
+    const slotId = req.query.id;
+    const deletedSlot = await SlotModel.findByIdAndRemove({ _id: slotId});
 
-    if (!deletedOfficeSpace) {
-        throw new NotFoundError(`OfficeSpace with id ${officeSpaceId} not found!`);
+    if (!deletedSlot) {
+        throw new NotFoundError(`Slot with id ${slotId} not found!`);
     }
 
     res.status(StatusCodes.OK).json({ message: 'Deleted'})
 };
 
-module.exports = { add, getAll, findById, findByStatus, findByLocation, findByOwnerId, findByMapCoordinates, findByPostId, edit, upload, attachFile, remove }
+module.exports = { add, getAll, findById, findByStatus, findByOccupantId, findBySpaceId, edit, upload, attachFile, remove }

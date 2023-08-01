@@ -3,7 +3,7 @@ const router = express.Router();
 
 const user = require('./user.routes');
 const slot = require('./slot.routes');
-const officeSpace = require('./officeSpace');
+const officeSpace = require('./officeSpace.routes');
 const rentRequest = require('./rentRequest.routes');
 const emailRoutes = require('./email.routes');
 
