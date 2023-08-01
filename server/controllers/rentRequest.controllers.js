@@ -1,22 +1,21 @@
 const RentRequest = require('../models/rentRequest.model');
-const Property = require('../models/officeSpace.model');
+const OfficeSpace = require('../models/officeSpace.model');
 const User = require('../models/user.model');
-const Contract = require('../models/contract.model');
 
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, NotFoundError } = require('../errors/index');
 const SendEmail = require('../utils/email/sendEmail');
 
 const add = async (req, res) => {
-    // Fetching designated property for the id of the owner.
-    const choosenProperty = await Property.findById(req.body.propertyId);
-    req.body.propertyOwnerId = choosenProperty.ownerId;
+    // Fetching designated officeSpace for the id of the owner.
+    const choosenOfficeSpace = await OfficeSpace.findById(req.body.officeSpaceId);
+    req.body.officeSpaceOwnerId = choosenOfficeSpace.ownerId;
 
     // Creating the rent request
     const rentRequest = await RentRequest.create(req.body);
 
     // Finding the owner of the house
-    const house = await Property.findById(req.body.propertyId);
+    const house = await OfficeSpace.findById(req.body.officeSpaceId);
     const owner = await User.findById(house.ownerId);    
 
     // Major email info
@@ -39,7 +38,7 @@ const add = async (req, res) => {
 
 const getAll = async(req, res) => {
     const rentRequests = await RentRequest.find({})
-    res.status(StatusCodes.OK).json({ nbHits: rentRequests.length, rentRequests })
+    res.status(StatusCodes.OK).json({ rentRequests })
 };
 
 const findById = async(req, res) => {
@@ -51,9 +50,9 @@ const findById = async(req, res) => {
     res.status(StatusCodes.OK).json({ rentRequest });
 };
 
-const findByPropertyId = async(req, res) => {
-    const propertyId = req.query.propertyId;
-    const rentRequests = await RentRequest.find({ propertyId: propertyId });
+const findByOfficeSpaceId = async(req, res) => {
+    const officeSpaceId = req.query.officeSpaceId;
+    const rentRequests = await RentRequest.find({ officeSpaceId: officeSpaceId });
     if (!rentRequests) {
         throw new BadRequestError(`Rent request not found for this owner.`);
     }
@@ -74,107 +73,14 @@ const remove = async(req, res) => {
 const edit = async(req, res) => {
     var status = req.body.status;
 
-    if (status === 'Accepted' || status === 'Rejected' || req.body.response) {
-        req.body.responseDate = Date.now();
-        // Updating the request
-        var request = await RentRequest.findByIdAndUpdate({ _id: req.query.id}, req.body);
-        var updatedRentRequest = await RentRequest.findById(request._id);
+    // Change number of available slots in the office space
+
+    // Change the status of the slot if the status of the request is approved
+
+    // Send email regarding the rent request status
     
-        // Find property information
-        var property = await Property.findById(updatedRentRequest.propertyId);
-        
-        let ownerIdentificationNumber = '';
-        let tenantIdentificationNumber = '';
-        let emailPayload = {};
-        let handleBars = "";
-
-        // Find info about property owner
-        var owner = await User.findById(property.ownerId);
-        
-        if (owner.nationalId !== "0000000000000000" && owner.passportNumber === "00000000") {
-            ownerIdentificationNumber = owner.nationalId;
-        } else if (owner.nationalId === "0000000000000000" && owner.passportNumber !== "00000000") {
-            ownerIdentificationNumber = owner.passportNumber;
-        } else if (owner.nationalId !== "0000000000000000" && owner.passportNumber !== "00000000") {
-            ownerIdentificationNumber = owner.nationalId;
-        }
-
-        // Info about tenant
-        if (updatedRentRequest.nationalId !== "0000000000000000" && updatedRentRequest.passportNumber === "00000000") {
-            tenantIdentificationNumber = owner.nationalId;
-        } else if (updatedRentRequest.nationalId === "0000000000000000" && updatedRentRequest.passportNumber !== "00000000") {
-            tenantIdentificationNumber = owner.passportNumber;
-        } else if (updatedRentRequest.nationalId !== "0000000000000000" && updatedRentRequest.passportNumber !== "00000000") {
-            tenantIdentificationNumber = owner.nationalId;
-        }
-
-        // Setup email according to request status 
-        if (status === 'Accepted') {
-            // Create a contract
-            const contract = await Contract.create({
-                propertyId: updatedRentRequest.propertyId,
-                ownerId: property.ownerId,
-                ownerName: owner.fullName,
-                ownerEmail: owner.email,
-                tenants: [
-                    { 
-                        tenantId: updatedRentRequest.requestingUserId,
-                        tenantEmail: updatedRentRequest.email,
-                        tenantPhone: updatedRentRequest.phone,
-                        tenantName: updatedRentRequest.fullName,
-                        allowedToRepost: updatedRentRequest.allowedToShare
-                    }
-                ],
-                totalPayment: property.rentPrice,
-                paymentPerTenant: property.rentPrice,
-            });
-
-            emailPayload = {
-                houseInfo: {
-                    houseNumber: property.propertyId,
-                    houseLocation: property.location,
-                },
-                user: updatedRentRequest.fullName.split(' ').join(''),
-                contractId: contract._id
-            };
-            handleBars = "./template/acceptedRequest.handlebars";
-
-            // Add tenant to the list of other tenants of an property
-            let listOfTenants = property.tenants;
-            listOfTenants.push({ 
-                id: updatedRentRequest.requestingUserId, 
-                fullName: updatedRentRequest.fullName
-            })
-            
-            await Property.findByIdAndUpdate(property._id, { tenants : listOfTenants})
-
-
-        } else {
-            emailPayload = {
-                houseInfo: {
-                    houseNumber: property.propertyId,
-                    houseLocation: property.location,
-                },
-                user: updatedRentRequest.fullName.split(' ').join(''),
-                response: updatedRentRequest.response
-            };
-            handleBars = "./template/rejectedRequest.handlebars";
-        }
-
-        // Sending the email to the person who sent a rent request
-        await SendEmail(
-            updatedRentRequest.email, 
-            `Rent request ${updatedRentRequest.status}`,
-            {
-                payload: emailPayload,
-                name: updatedRentRequest.fullName
-            },
-            handleBars 
-        );
-    } else {
-        const request = await RentRequest.findByIdAndUpdate({ _id: req.query.id}, req.body);
-        const updatedRentRequest = await RentRequest.findById(request._id);
-    }
+    const rentRequest = await RentRequest.findByIdAndUpdate({ _id: req.query.id }, req.body);
+    const updatedRentRequest = await RentRequest.findById(rentRequest._id);
 
     if (!updatedRentRequest) {
         throw new NotFoundError(`Request not found!`);
@@ -183,4 +89,4 @@ const edit = async(req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Rent request updated', rentRequest: updatedRentRequest})
 };
 
-module.exports = { add, getAll, edit, findByPropertyId, findById, remove }
+module.exports = { add, getAll, edit, findByOfficeSpaceId, findById, remove }

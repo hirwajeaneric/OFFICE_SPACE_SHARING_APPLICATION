@@ -64,6 +64,9 @@ const attachFile = async (req, res, next) => {
 
 const add = async (req, res) => {
     const  slot = await SlotModel.create(req.body);
+
+    //Update office space number of slots and number of available slots
+
     res.status(StatusCodes.CREATED).json({ message: 'Successfully added', slot })
 };
 
@@ -107,12 +110,16 @@ const edit = async(req, res) => {
     const updated = await SlotModel.findByIdAndUpdate({ _id:  slotId }, slot);
     const updatedSlot = await SlotModel.findById(updated._id);
 
+    //Update office space number of slots and number of available slots
+
     res.status(StatusCodes.OK).json({ message: 'Updated', slot: updatedSlot })
 };
 
 const remove = async(req, res) => {
     const slotId = req.query.id;
     const deletedSlot = await SlotModel.findByIdAndRemove({ _id: slotId});
+
+    //Update office space number of slots and number of available slots
 
     if (!deletedSlot) {
         throw new NotFoundError(`Slot with id ${slotId} not found!`);

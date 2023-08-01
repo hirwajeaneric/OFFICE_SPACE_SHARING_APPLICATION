@@ -35,6 +35,10 @@ const officeSpaceSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    availableSlots: { 
+        type: Number, 
+        required: false, 
+    },
     ownerId: { 
         type: String, 
         required: true 
