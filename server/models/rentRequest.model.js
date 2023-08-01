@@ -5,6 +5,10 @@ const rentRequestSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    slotId: { 
+        type: String, 
+        required: true 
+    },
     officeSpaceOwnerId: { 
         type: String, 
         required: true 
@@ -25,10 +29,6 @@ const rentRequestSchema = new mongoose.Schema({
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             'Please provide a valid email',
         ]
-    },
-    nationalId: {
-        type: String,
-        required: false,
     },
     phone: { 
         type: String, 

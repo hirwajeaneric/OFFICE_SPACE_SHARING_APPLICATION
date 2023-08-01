@@ -1,7 +1,6 @@
 require('dotenv').config();
 require('express-async-errors');
 
-const xss = require('xss-clean');
 const cors = require('cors');
 const express = require('express');
 const app = express();
@@ -21,7 +20,7 @@ app.use('/api/v1/ossa/', allRoutes);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 4444;
+const port = process.env.PORT || 4400;
 
 const start = async () => {
   try {
