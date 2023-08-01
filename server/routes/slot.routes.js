@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { findById, getAll, add, attachFile, edit, findByLocation, findByMapCoordinates, findByOwnerId, findByPostId, findByStatus, remove, upload } = require('../controllers/property');
+const { findById, getAll, add, attachFile, edit, findByLocation, findByMapCoordinates, findByOwnerId, findByPostId, findByStatus, remove, upload } = require('../controllers/slot.controllers');
 
 
 router.post('/add', upload.array('pictures', 12), attachFile, add);

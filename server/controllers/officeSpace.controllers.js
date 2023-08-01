@@ -1,4 +1,4 @@
-const OfficeSpaceModel = require('../models/officeSpace');
+const OfficeSpaceModel = require('../models/officeSpace.model');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError } = require('../errors/index');
 const multer= require('multer');
@@ -25,52 +25,18 @@ const upload = multer({
 
 // Middleware for attaching files to the request body before saving.
 const attachFile = async (req, res, next) => {
-    var pics = [];
-    const {query, body, files} = req;
-
-    // Check if there is an  officeSpace or house already
-    if (query.id) {
-        const  existingOfficeSpace = await OfficeSpaceModel.findById(query.id);
-        
-        if ( existingOfficeSpace &&  existingOfficeSpace.pictures.length !== 0) {
-            pics =  existingOfficeSpace.pictures;
-            if (files.length !== 0) {
-                pics =  existingOfficeSpace.pictures;
-                files.forEach(file => {
-                    pics.push(file.filename); 
-                });
-            }
-        } else if ( existingOfficeSpace &&  existingOfficeSpace.pictures.length === 0) {
-            if (files.length !== 0) {
-                pics =  existingOfficeSpace.pictures;
-                files.forEach(file => {
-                    pics.push(file.filename); 
-                });
-            }
-        } else if (!existingOfficeSpace) {
-            throw new BadRequestError(`Not found!`);
-        }
-    } else {
-        if (files.length !== 0) {
-            files.forEach(file => {
-                pics.push(file.filename); 
-            });       
-        }
-    }
-
-    req.body.pictures = pics;
+    req.body.picture = req.file.filename;
     next();
 }
 
 const add = async (req, res) => {
-    const data = req.body;
     const  officeSpace = await OfficeSpaceModel.create(req.body);
     res.status(StatusCodes.CREATED).json({ message: 'Successfully added', officeSpace })
 };
 
 const getAll = async(req, res) => {
-    const  properties = await OfficeSpaceModel.find({})
-    res.status(StatusCodes.OK).json({ nbHits:  properties.length,  properties })
+    const  officeSpaces = await OfficeSpaceModel.find({})
+    res.status(StatusCodes.OK).json({ officeSpaces })
 };
 
 const findById = async(req, res) => {
@@ -84,40 +50,34 @@ const findById = async(req, res) => {
 
 const findByOwnerId = async(req, res) => {
     const ownerId = req.query.ownerId;
-    const properties = await OfficeSpaceModel.find({ ownerId: ownerId });
-    res.status(StatusCodes.OK).json({ nbHits:  properties.length,  properties });
+    const officeSpaces = await OfficeSpaceModel.find({ ownerId: ownerId });
+    res.status(StatusCodes.OK).json({ officeSpaces });
 };
 
 const findByLocation = async(req, res) => {
     const location = req.query.location;
-    let  properties = [];
+    let  officeSpaces = [];
     const allProperties = await OfficeSpaceModel.find({});
 
     allProperties.forEach(officeSpace => {
         if ( officeSpace.location === location ||  officeSpace.location.includes(location)) {
-            properties.push(officeSpace);
+            officeSpaces.push(officeSpace);
         }
     })
 
-    res.status(StatusCodes.OK).json({ nbHits: properties.length, properties });
+    res.status(StatusCodes.OK).json({ officeSpaces });
 };
 
 const findByMapCoordinates = async(req, res) => {
     const mapCoordinates = req.query.mapCoordinates;
-    const properties = await OfficeSpaceModel.find({ mapCoordinates: mapCoordinates });
-    res.status(StatusCodes.OK).json({ nbHits:  properties.length,  properties });
+    const officeSpaces = await OfficeSpaceModel.find({ mapCoordinates: mapCoordinates });
+    res.status(StatusCodes.OK).json({ nbHits:  officeSpaces.length,  officeSpaces });
 };
 
 const findByStatus = async(req, res) => {
     const status = req.query.status;
-    const properties = await OfficeSpaceModel.find({ status: status });
-    res.status(StatusCodes.OK).json({ nbHits: properties.length, properties });
-};
-
-const findByPostId = async(req, res) => {
-    const postId = req.query.postId;
-    const  properties = await OfficeSpaceModel.find({ postId: postId });
-    res.status(StatusCodes.OK).json({ nbHits:  properties.length,  properties });
+    const officeSpaces = await OfficeSpaceModel.find({ status: status });
+    res.status(StatusCodes.OK).json({ officeSpaces });
 };
 
 const edit = async(req, res) => {
@@ -141,4 +101,4 @@ const remove = async(req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Deleted'})
 };
 
-module.exports = { add, getAll, findById, findByStatus, findByLocation, findByOwnerId, findByMapCoordinates, findByPostId, edit, upload, attachFile, remove }
+module.exports = { add, getAll, findById, findByStatus, findByLocation, findByOwnerId, findByMapCoordinates, edit, upload, attachFile, remove }
