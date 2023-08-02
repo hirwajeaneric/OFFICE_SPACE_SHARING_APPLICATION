@@ -19,7 +19,7 @@ const multerFilter = (req, file, callback) => {
     } else {
         callback("Not an image! Please upload only images.", false);
     }
-  };
+};
 
 
 

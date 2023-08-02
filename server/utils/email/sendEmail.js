@@ -1,9 +1,6 @@
 const nodemailer = require('nodemailer');
-const handlebars = require("handlebars");
-const fs = require("fs");
-const path = require("path");
 
-const sendEmail = async (email, subject, messageContent, template) => {
+const sendEmail = async (email, subject, text) => {
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -13,14 +10,11 @@ const sendEmail = async (email, subject, messageContent, template) => {
             },
         });
 
-        const source = fs.readFileSync(path.join(__dirname, template), "utf8");
-        const compiledTemplate = handlebars.compile(source);
-
         const options = {
             from: "hirwaminerve25@gmail.com",
             to: email,
             subject: subject,
-            html: compiledTemplate(messageContent),
+            text: text
         };
 
         await transporter.sendMail(options, function(error, infor) {
@@ -28,10 +22,8 @@ const sendEmail = async (email, subject, messageContent, template) => {
                 console.log("Failed to save email: "+error);
                 return error;
             } else {
-                console.log("Email Sent successfully: "+infor.response);
-                return res.status(200).json({
-                    success: true,
-                });
+                console.log("Email Sent: "+infor.response);
+                return "Email Sent: "+infor.response;
             }
         });
     } catch (error) {
