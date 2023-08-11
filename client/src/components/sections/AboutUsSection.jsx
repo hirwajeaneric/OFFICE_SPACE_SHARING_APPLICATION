@@ -10,28 +10,22 @@ export default function AboutUsSection() {
             <LeftContainer style={{ flexDirection: 'column', marginBottom: '20px', padding: '10px'}}>
               <img src='/imgs/logo2.png' alt='' style={{ width: '100%', border: '1px solid green', margin: '20px 0 40px' }}/>
               <p>
-                ISMA is an acronym of the word: "I Share My Apartment".
+                OSSA is an acronym of the word: "Office Space Sharing Application".
                 <br /><br /> 
-                It was inspired by <strong>NKURIKIYINGOMA Honorine</strong> the owner and founder of ISMA 
-                after realizing that there was a rising crisis of students from rural areas
-                and international students who were finding it very hard to find houses to rent
-                nearby university campuses, yet there being apartments and other houses which would
-                be rented and shared by many people if they had agreements for that.
+                It was inspired and founded by <strong>Sandra MUTONI</strong> after realizing that there was a rising crisis of the lack of affordable office spaces in new businesses and start ups.
+                She also realized that there is also a communication gap between office space and commercial building owners and business people or those who need work spaces.
+                That need for a connection of these 2 parties was the one that influenced the creation of OSSA.
               </p>
             </LeftContainer>
             <RightContainer style={{ flexDirection: 'column', padding: '10px'}}>
-              <HeaderOne style={{color: 'black', textAlign: 'left', width: '100%', margin: '0 0 40px'}}>Features and How To Use ISMA</HeaderOne>
+              <HeaderOne style={{color: 'black', textAlign: 'left', width: '100%', margin: '0 0 40px'}}>Features and How To Use OSSA</HeaderOne>
               <p style={{ margin: '20px 0' }}>
-                <HeaderTwo>Here is what ISMA can will help you with</HeaderTwo>
+                <HeaderTwo>Here is what OSSA can will help you with</HeaderTwo>
                 <br/>
                 <ul style={{ padding: '10px 20px 0' }}>
-                  <li>This application helps the owner of a house or apartment or agent in charge to upload a house or apartment.</li>
+                  <li>This application helps the owner of an office space or agent in charge to upload the office space.</li>
                   <br/>
-                  <li>It also allows students and other people who want to rent the houses to join the website and rent the houses.</li>
-                  <br/>
-                  <li>When applicants are allowed to rent for a house, they are given an opportunity to repost the apartment on the website and find partners and other people who can join them.</li>
-                  <br/>
-                  <li>People who want to join the apartments would also be able to request for joining the apartments, when allowed, they would visit the apartment, and when all parties agree for the terms of the rent, they sign a contract using the inbuilt system of the application.</li>
+                  <li>It also allows people who need slots in the available spaces to rent the specific slots they need.</li>
                 </ul>
               </p>
             </RightContainer>

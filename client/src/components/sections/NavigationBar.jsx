@@ -41,13 +41,13 @@ export default function NavigationBar() {
       <PageSizedContainer>
         <TwoSidedContainer style={{ position: 'relative' }}>
           <Logo to={'/'} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', fontWeight: '700'}}>
-            <MdOutlineApartment /> ISMA
+            <MdOutlineApartment /> OSSA
           </Logo>
           <DesktopNav>
             <NavLink to={'/'}>Home</NavLink>
             <NavLink to={'/aboutus'}>About Us</NavLink>
             <NavLink to={'/contactus'}>Contact Us</NavLink>
-            <NavLink to={'/post'}>Post New Property</NavLink>
+            <NavLink to={'/upload'}>Post New Property</NavLink>
             {localStorage.getItem('usrTkn') &&
               <NavLink to={`/user/${userInfo.fullName.split(' ').join('')}/overview`}>My Account</NavLink>
             }

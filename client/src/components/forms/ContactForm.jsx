@@ -89,7 +89,7 @@ export default function ContactForm() {
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start', width: '100%' }}>
           <img
             style={{ width: '100%'}} 
-            src={'/imgs/vecteezy_businessman-calling-customer-support-service-call-center_.jpg'} 
+            src={'/imgs/vecteezy_male-customer-support-phone-operator-with-headset-working_7620779.jpg'} 
             alt='businessman calling customer support - Resource from vecteezy.com' 
           />  
         </div>

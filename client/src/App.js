@@ -34,9 +34,8 @@ function App() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('usrInfo'));
-    dispatch(getUserDetails({ userId: user.id}));
-
     if (user) {
+      dispatch(getUserDetails({ userId: user.id}));
       dispatch(getOfficeSpaces());
       dispatch(getRentRequests({userId: user.id}));
     } else {

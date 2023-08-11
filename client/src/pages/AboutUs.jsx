@@ -7,10 +7,10 @@ export default function AboutUs() {
   return (
     <>
       <Helmet>
-        <title>About ISMA.</title>
-        <meta name="description" content={`More information about ISMA.`} /> 
+        <title>About OSSA.</title>
+        <meta name="description" content={`More information about OSSA.`} /> 
       </Helmet>
-      <CustomizedBanner title={'About ISMA.'} height={'20vh'}/>
+      <CustomizedBanner title={'About OSSA.'} height={'20vh'}/>
       <AboutUsSection />
     </>
   )

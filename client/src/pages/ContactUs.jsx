@@ -11,7 +11,7 @@ export default function ContactUs() {
         <title>Contact Us.</title>
         <meta name="description" content={`More information about ISMA.`} /> 
       </Helmet>
-      <CustomizedBanner title={'Contact Us.'} subtitle={'Do you have a question, do you need support with how to use ISMA? Do not hesitate to leave us a message.'} height={'20vh'}/>
+      <CustomizedBanner title={'Contact Us.'} subtitle={'Do you have a question, do you need support with how to use OSSA? Do not hesitate to leave us a message.'} height={'20vh'}/>
       <PageSizedContainer style={{ flexDirection: 'column', margin: '40px 0 40px', padding: '10px'}}>
         <ContactForm />
       </PageSizedContainer>

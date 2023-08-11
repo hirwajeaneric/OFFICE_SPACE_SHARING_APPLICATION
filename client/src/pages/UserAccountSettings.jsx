@@ -19,9 +19,7 @@ export default function UserAccountSettings() {
   };
   const [userInfo, setUserInfo] = useState({
     fullName: '',
-    nationality: '',
     nationalId: '',
-    passportNumber:'',
     email: '',
     phone: '',
     profilePicture:''
@@ -60,7 +58,7 @@ export default function UserAccountSettings() {
     }
 
     setIsProcessing(true);
-    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/findById?id=${user.id}`, userInfo, config)
+    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/update?id=${user.id}`, userInfo, config)
     .then(response => {
       if (response.status === 200) {
         setIsProcessing(false);
@@ -125,12 +123,10 @@ export default function UserAccountSettings() {
             <TextField type='file' name='profilePicture' onChange={handleProfilePicture} size='small' variant='outlined' id='profilePicture' />
           </div>
           <form onSubmit={handleUpdate}>
-            <TextField name='fullName' style={{ width: '100%' }} value={userInfo.fullName} onChange={handleUserInfoChanges} label={'Full name'} id='email' size='small' />
-            <TextField name='nationality' style={{ width: '100%' }} value={userInfo.nationality} onChange={handleUserInfoChanges} label={'Nationality'} id='nationality' size='small' />
-            <TextField name='nationalId' style={{ width: '100%' }} value={userInfo.nationalId} onChange={handleUserInfoChanges} label={'National id'} id='natianalId' size='small' />
-            <TextField name='passportNumber' style={{ width: '100%' }} value={userInfo.passportNumber} onChange={handleUserInfoChanges} label={'Passport number'} id='passportNumber' size='small' />
+            <TextField name='fullName' style={{ width: '100%' }} minLength='4' value={userInfo.fullName} onChange={handleUserInfoChanges} label={'Full name'} id='email' size='small' />
+            <TextField name='nationalId' style={{ width: '100%' }} minLength='16' maxLength='16' value={userInfo.nationalId} onChange={handleUserInfoChanges} label={'National id'} id='natianalId' size='small' />
             <TextField name='email' style={{ width: '100%' }} value={userInfo.email} onChange={handleUserInfoChanges} label={'Email'} id='email' size='small' />
-            <TextField name='phone' style={{ width: '100%' }} value={userInfo.phone} onChange={handleUserInfoChanges} label={'Phone'} id='phone' size='small' />
+            <TextField name='phone' style={{ width: '100%' }} minLength='10' maxLength='10' value={userInfo.phone} onChange={handleUserInfoChanges} label={'Phone'} id='phone' size='small' />
             {!isProcessing && 
               <Button type='submit' variant='contained' size='small' color='primary'>EDIT</Button>
             }

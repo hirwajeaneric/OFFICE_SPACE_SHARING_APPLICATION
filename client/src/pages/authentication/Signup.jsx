@@ -90,10 +90,10 @@ const Signup = () => {
         <h2 style={{ textAlign: 'center' }}>Create an account</h2>
         <AuthFormContainer onSubmit={submitForm}>
           
-          <TextField id="fullName" style={{ width: '100%' }} size='small' label="Full name" variant="outlined" name='fullName' value={formData.fullName || ''} onChange={handleChange}/>
-          <TextField id="email" style={{ width: '100%' }} size='small' label="Email" variant="outlined" name='email' value={formData.email || ''} onChange={handleChange}/>
-          <TextField id="phone" style={{ width: '100%' }} size='small' label="Phone" variant="outlined" name='phone' value={formData.phone || ''} onChange={handleChange}/>
-          <TextField id="nationalId" style={{ width: '100%' }} size='small' label="National Id" variant="outlined" name='nationalId' value={formData.nationalId || ''} onChange={handleChange}/>
+          <TextField id="fullName" style={{ width: '100%' }} minLength='4' size='small' label="Full name" variant="outlined" name='fullName' value={formData.fullName || ''} onChange={handleChange}/>
+          <TextField id="email" style={{ width: '100%' }} minLength='8' size='small' label="Email" variant="outlined" name='email' value={formData.email || ''} onChange={handleChange}/>
+          <TextField id="phone" style={{ width: '100%' }} minLength='16' maxLength='16' size='small' label="Phone" variant="outlined" name='phone' value={formData.phone || ''} onChange={handleChange}/>
+          <TextField id="nationalId" style={{ width: '100%' }} minLength='16' maxLength='16' size='small' label="National Id" variant="outlined" name='nationalId' value={formData.nationalId || ''} onChange={handleChange}/>
           {/* Password field  */}
           <FormControl sx={{ width: '100%' }} size='small' variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
