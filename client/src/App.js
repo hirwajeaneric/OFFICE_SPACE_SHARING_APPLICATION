@@ -56,7 +56,7 @@ function App() {
             <Route path='aboutus' element={<AboutUs />} />
             <Route path='contactus' element={<ContactUs />} />
             <Route path='search' element={<SearchPage />} />
-            <Route path='property/:id' element={<PropertyDetailsHome />} />
+            <Route path='space/:id' element={<PropertyDetailsHome />} />
             
             <Route path='' element={<Auth />}>
               <Route path='signin' element={<Signin />} />
