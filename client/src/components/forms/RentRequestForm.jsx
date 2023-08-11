@@ -6,7 +6,6 @@ import { CustomFormControlOne } from '../styled-components/generalComponents';
 import { useDispatch } from 'react-redux';
 import { getRentRequests } from '../../redux/features/rentRequestsSlice';
 import axios from 'axios';
-import { APIS } from '../../utils/APIS';
 import ResponseComponent from '../sections/ResponseComponent';
 
 export default function RentRequestForm() {
@@ -74,7 +73,7 @@ export default function RentRequestForm() {
     formData.requestingUserId = user.id;
 
     setIsProcessing(true);
-    axios.post(APIS.rentRequestApis.add, formData)
+    axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/add`, formData)
     .then(response => {
       setTimeout(() => {
         if (response.status === 201) {

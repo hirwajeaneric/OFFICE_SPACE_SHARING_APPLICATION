@@ -1,16 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import propertyReducer from './features/propertySlice';
+import officeSpaceReducer from './features/officeSpaceSlice';
 import rentRequestReducer from './features/rentRequestsSlice';
-import joinRequestReducer from './features/joinRequestsSlice';
-import contractReducer from './features/contractSlice';
-import joinPostReducer from './features/joinPostSlice';
+import slotReducer from './features/slotSlice';
+import userReducer from './features/userSlice';
 
 export const store = configureStore({
   reducer: {
-    property: propertyReducer,
+    officeSpace: officeSpaceReducer,
     rentRequest: rentRequestReducer,
-    joinRequest: joinRequestReducer,
-    contract: contractReducer,
-    joinPost: joinPostReducer,
+    slot: slotReducer,
+    user: userReducer,
   },
 });

@@ -11,7 +11,6 @@ import OwnedProperties from './pages/OwnedProperties';
 import RentRequestList from './pages/RentRequestList';
 import PropertyDetailsUserAccount from './pages/ProperyDetailsUserAccount';
 import RentRequestDetails from './pages/RentRequestDetails';
-import ReportPreview from './pages/ReportPreview';
 import TenantInfo from './pages/TenantInfo';
 import ErrorPage from './pages/ErrorPage';
 import PostProperty from './pages/PostProperty';
@@ -77,7 +76,6 @@ function App() {
                 <Route path='all/sent' element={<SentRentRequests />} />
                 <Route path='all/recieved' element={<RecievedRentRequests />} />
               </Route>
-              <Route path='report-preview' element={<ReportPreview />} />
               <Route path='space/:officeSpaceId' element={<PropertyDetailsUserAccount />} />
               <Route path='rent-request/:rentRequestId' element={<RentRequestDetails />} />
               <Route path='tenant/:tenantId' element={<TenantInfo />} />

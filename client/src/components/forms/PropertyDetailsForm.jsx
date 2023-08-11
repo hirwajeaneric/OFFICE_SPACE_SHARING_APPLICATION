@@ -5,7 +5,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { getProperties } from '../../redux/features/propertySlice';
+import { getOfficeSpaces } from '../../redux/features/officeSpaceSlice';
 import { useParams } from 'react-router-dom';
 import ImageCarousel from '../sections/ImageCarousel';
 
@@ -77,7 +77,7 @@ export default function PropertyDetailsForm(props) {
       if (response.status === 200) {
         setResponseMessage({ message: response.data.message, severity: 'success' });
         setOpen(true);
-        dispatch(getProperties());
+        dispatch(getOfficeSpaces());
         setProgress({ value: '', disabled: false });
         window.location.reload();
       }

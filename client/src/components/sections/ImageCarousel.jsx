@@ -1,6 +1,5 @@
 import React from 'react';
 import { CustomCarousel, CustomPaper } from '../styled-components/generalComponents';
-import { APIS } from '../../utils/APIS';
 
 export default function ImageCarousel(props) {
   const { pictures } = props; 
@@ -8,7 +7,7 @@ export default function ImageCarousel(props) {
     <CustomCarousel>
       { pictures && pictures.map((image, index) => 
         <CustomPaper key={index}>
-          <img src={`${APIS.files.property}${image}`} alt={image} />
+          <img src={`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/spaces/${image}`} alt={image} />
         </CustomPaper>
       )}
     </CustomCarousel>

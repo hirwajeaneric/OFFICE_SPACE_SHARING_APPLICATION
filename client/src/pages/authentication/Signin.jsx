@@ -2,7 +2,6 @@ import { Button, OutlinedInput, TextField } from '@mui/material';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthFormContainer, CommandButtons, InnerContainer } from '../../components/styled-components/authenticationPages'
-import { APIS } from '../../utils/APIS';
 
 import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
@@ -55,7 +54,7 @@ const Signin = () => {
     } else {
       setProgress({ value: 'Signing in ...', disabled: true});
 
-      axios.post(APIS.userApis.signIn , formData)
+      axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/signin` , formData)
       .then(response => {
         setTimeout(()=>{
           if (response.status === 200) {
@@ -82,7 +81,7 @@ const Signin = () => {
     <>
       <Helmet>
         <title>Sign In</title>
-        <meta name="description" content={`Sign in to your ISMA Account.`} /> 
+        <meta name="description" content={`Sign in to your OSSA Account.`} /> 
       </Helmet>
       <InnerContainer>
         <h2 style={{ textAlign: 'center' }}>Sign in to your account</h2>

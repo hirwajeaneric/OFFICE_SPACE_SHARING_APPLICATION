@@ -5,7 +5,6 @@ import { CustomFormControlOne, HeaderThree, LeftContainer, RightContainer, TwoSi
 import { useDispatch, useSelector } from 'react-redux';
 import { getRentRequestDetails, getRentRequests } from '../../redux/features/rentRequestsSlice';
 import axios from 'axios';
-import { APIS, PROTOCOL } from '../../utils/APIS';
 import ResponseComponent from '../sections/ResponseComponent';
 
 export default function RentRequestDetailsForm() {
@@ -50,7 +49,6 @@ export default function RentRequestDetailsForm() {
     }
 
     console.log(formData);
-    console.log(APIS.rentRequestApis.update+params.rentRequestId);
 
     axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/update?id=${params.rentRequestId}`, formData)
     .then(response => {
@@ -95,7 +93,7 @@ export default function RentRequestDetailsForm() {
         <p><strong>Gender:</strong> {selectedRentRequest.gender}</p>
         <p><strong>Age:</strong> {selectedRentRequest.age}</p>
         <p><strong>Message:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.comment}</span></p>
-        <p><Link to={`${PROTOCOL}://localhost:5555/property/${selectedRentRequest.propertyId}`} style={{ color: 'blue', textDecoration: 'none' }}>View House</Link></p>
+        <p><Link to={`/space/${selectedRentRequest.propertyId}`} style={{ color: 'blue', textDecoration: 'none' }}>View House</Link></p>
       </LeftContainer>
 
       <RightContainer style={{ flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start' }}>

@@ -1,10 +1,9 @@
 import React from 'react';
-import { CustomPropertyCard, FullWidthContainer, HeaderOne, PageSizedContainer, TopLeftFlexAlignedContainer } from '../styled-components/generalComponents';
+import { CustomPropertyCard, FullWidthContainer, PageSizedContainer, TopLeftFlexAlignedContainer } from '../styled-components/generalComponents';
 import { Button, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { LocationOn } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { APIS } from '../../utils/APIS';
 
 export default function RecentlyPosted() {
   const { listOfOfficeSpaces, numberOfOfficeSpaces, isLoading } = useSelector((state) => state.officeSpace);

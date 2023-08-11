@@ -32,9 +32,7 @@ const signIn = async (req, res) => {
             email: user.email,
             fullName: user.fullName,
             phone: user.phone,
-            nationality: user.nationality,
             nationalId: user.nationalId,
-            passportNumber: user.passportNumber,
             profilePicture: user.profilePicture,
             token: token,
         }
@@ -64,9 +62,7 @@ const signUp = async (req, res) => {
             email: user.email,
             fullName: user.fullName,
             phone: user.phone,
-            nationality: user.nationality,
             nationalId: user.nationalId,
-            passportNumber: user.passportNumber,
             profilePicture: user.profilePicture,
             token: token,
         }
@@ -143,9 +139,7 @@ const updateUser = async(req, res, next) => {
             email: updatedUser.email,
             fullName: updatedUser.fullName,
             phone: updatedUser.phone,
-            nationality: updatedUser.nationality,
             nationalId: updatedUser.nationalId,
-            passportNumber: updatedUser.passportNumber,
             profilePicture: updatedUser.profilePicture,
             token: token,
         }

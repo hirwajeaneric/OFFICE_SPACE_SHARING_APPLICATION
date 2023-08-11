@@ -5,7 +5,6 @@ import { HeaderTwo } from '../components/styled-components/generalComponents'
 import { PageWithSideMenuContainer } from '../components/styled-components/generalComponents'
 import { Button, TextField } from '@mui/material'
 import axios from 'axios';
-import { APIS } from '../utils/APIS';
 import ResponseComponent from '../components/sections/ResponseComponent';
 
 export default function UserAccountSettings() {
@@ -30,11 +29,10 @@ export default function UserAccountSettings() {
   
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('usrInfo'));
-    axios.get(APIS.userApis.findById+user.id)
+    axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/findById?id=${user.id}`)
     .then(response => {
       delete response.data.user.password;
       setUserInfo(response.data.user);
-      console.log(APIS.files.profiles+userInfo.profilePicture);
     })
     .catch(error => console.log(error));
   },[userInfo.profilePicture])
@@ -122,7 +120,7 @@ export default function UserAccountSettings() {
         <PageWithSideMenuContainer style={{ backgroundColor: 'white', padding: '20px', marginTop: '20px', borderRadius: '10px', border: '1px solid #d1e0e0' }}>
           <div className='profile-picture'>
             {userInfo.profilePicture ?
-            <img src={""+APIS.files.profiles+userInfo.profilePicture+""} alt='' /> :
+            <img src={""+process.env.REACT_APP_SERVERURL+"/api/v1/ossa/profiles/"+userInfo.profilePicture+""} alt='' /> :
             <img src='/imgs/user_avatar_white.png' alt='' />}
             <TextField type='file' name='profilePicture' onChange={handleProfilePicture} size='small' variant='outlined' id='profilePicture' />
           </div>
