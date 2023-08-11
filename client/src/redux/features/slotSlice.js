@@ -2,6 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 const initialState = {
+    allAvailableSlots: [],
+    numberOfAllAvailableSlots: 0,
+
     slotsForOfficeSpace: [],
     numberOfSlotsForOfficeSpace: 0,
     selectedSlot: {},
@@ -17,6 +20,21 @@ const initialState = {
     searchQuery: {},
     searchResults: [],
 }
+
+export const getAllAvailableSlots = createAsyncThunk(
+    'slot/getAllAvailableSlots',
+    async (thunkAPI) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/findByStatus?status=available`);
+            response.data.slots.forEach(element => {
+                element.id = element._id;
+            });
+            return response.data.slots; 
+        } catch (error) {
+            return thunkAPI.rejectWithValue('Something went wrong!');
+        }
+    }
+);
 
 export const getSlotsForOfficeSpace = createAsyncThunk(
     'slot/getSlotsForOfficeSpace',
@@ -83,6 +101,17 @@ const slotSlice = createSlice({
         }
     },
     extraReducers: {
+        [getAllAvailableSlots.pending] : (state)=> {
+            state.isLoading = true;
+        },
+        [getAllAvailableSlots.fulfilled] : (state,action) => {
+            state.isLoading = false;
+            state.allAvailableSlots = action.payload;
+            state.numberOfAllAvailableSlots = state.allAvailableSlots.length;
+        },
+        [getAllAvailableSlots.rejected] : (state) => {
+            state.isLoading = false;
+        },
         [getSlotsForOfficeSpace.pending] : (state)=> {
             state.isLoading = true;
         },

@@ -11,7 +11,6 @@ export default function Main() {
         <NavigationBar/>
         <Outlet />
       </FullWidthContainer>
-      {/* Footer  */}
       <Footer />
     </MainAppContainer>
   )

@@ -8,9 +8,10 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>Welcome to ISMA.</title>
-        <meta name="description" content={`The best apartment sharing application for students and solo travellers.`} /> 
+        <title>Welcome to OSSA - The best office space sharing application for all business sizes.</title>
+        <meta name="description" content={`The best office space sharing application for all business sizes.`} /> 
       </Helmet>
+      
       <Banner />
       <RecentlyPosted />
       <ToBeJoined />
