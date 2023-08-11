@@ -16,7 +16,7 @@ const initialState = {
 
 export const getOfficeSpaces = createAsyncThunk(
     'officeSpace/getOfficeSpaces',
-    async (userId, thunkAPI) => {
+    async (thunkAPI) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/list`);
             response.data.officeSpaces.forEach(element => {
