@@ -1,122 +1,123 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { APIS } from '../../utils/APIS';
 
 const initialState = {
-    listOfJoinRequestsSentToMe: [],
-    numberOfJoinRequestsSentToMe: 0,
-    listOfJoinRequestsSentByMe: [],
-    numberOfJoinRequestsSentByMe: 0,
-    selectedJoinRequest: {},
-    recentJoinRequests: [],
+    slotsForOfficeSpace: [],
+    numberOfSlotsForOfficeSpace: 0,
+    selectedSlot: {},
+
+    availableSlots: [],
+    numberOfAvailableSlots: 0,
+    bookedSlots: [],
+    numberOfBookedSlots: 0,
+    unavailableSlots: [],
+    numberOfUnavailableSlots: 0,
+
     isLoading: false,
-    isProcessing: false,
+    searchQuery: {},
+    searchResults: [],
 }
 
-export const getJoinRequests = createAsyncThunk(
-    'joinRequest/getJoinRequests',
-    async (userId, thunkAPI) => {
+export const getSlotsForOfficeSpace = createAsyncThunk(
+    'slot/getSlotsForOfficeSpace',
+    async (filter, thunkAPI) => {
+        const { spaceId } = filter;
         try {
-            const response = await axios.get(APIS.joinRequestApis.list);
-            response.data.joinRequests.forEach(element => {
+            const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/findBySpaceId?spaceId=${spaceId}`);
+            response.data.slots.forEach(element => {
                 element.id = element._id;
             });
-            thunkAPI.dispatch({ type: 'joinRequest/getJoinRequestsStatistics', payload: { user: userId, joinRequests: response.data.joinRequests } });
-            return response.data.joinRequests; 
+            return response.data.slots; 
         } catch (error) {
             return thunkAPI.rejectWithValue('Something went wrong!');
         }
     }
 );
 
-export const getJoinRequestDetails = createAsyncThunk(
-    'joinRequest/getJoinRequestDetails',
-    async (joinRequestId, thunkAPI) => {
+export const getSlotDetails = createAsyncThunk(
+    'slot/getSlotDetails',
+    async (filter, thunkAPI) => {
+        const { slotId } = filter;
         try {
-            const response = await axios.get(APIS.joinRequestApis.findById+joinRequestId);    
-            return response.data.joinRequest; 
+            const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/findById?id=${slotId}`);    
+            return response.data.slot; 
         } catch (error) {
             return thunkAPI.rejectWithValue('Something went wrong!');
         }
     }
 );
 
-export const updateJoinRequest = createAsyncThunk(
-    'joinRequest/updateJoinRequest',
-    async ( update, thunkAPI) => {
-        try {
-            const { id, joinRequest } = update;
-            var response = await axios.put(APIS.joinRequestApis.update+id, joinRequest);
-            thunkAPI.dispatch({ type: 'joinRequest/updateSelectedJoinRequest', payload: response.data.joinRequest });
-            thunkAPI.dispatch(getJoinRequests());
-            return response.data.joinRequest; 
-        } catch (error) {
-            return thunkAPI.rejectWithValue('Something went wrong!');
-        }
-    }
-);
-
-const joinRequestSlice = createSlice({
-    name: 'joinRequest',
+const slotSlice = createSlice({
+    name: 'slot',
     initialState,
     reducers: {
-        updateSelectedJoinRequest: (state, action) => {
-            state.selectedJoinRequest = action.payload.joinRequest;
+        updateSelectedSlot: (state, action) => {
+            state.selectedSlot = action.payload.slot;
         },
-        getJoinRequestsStatistics: (state, action) => {
-            let requestsToMyProperties = [];
-            let requestsSentByMe = [];
+        searchSlot: (state, action) => {
+            const { slotType, status, location } = action.payload;
+            state.searchQuery = action.payload;
+            let searchResults = null;
 
-            action.payload.joinRequests.forEach(element => {
-                if (element.postingTenantId === action.payload.user) {
-                    requestsToMyProperties.push(element);
-                }
-                if (element.postingTenantId === action.payload.user) {
-                    requestsSentByMe.push(element);
-                }
-            })
+            var slots = state.listOfSlots.filter((slot) => slot.status !== 'Occupied');
 
-            state.listOfJoinRequestsSentToMe = requestsToMyProperties;
-            state.numberOfJoinRequestsSentToMe = requestsToMyProperties.length;
-            state.listOfJoinRequestsSentByMe = requestsSentByMe;
-            state.numberOfJoinRequestsSentByMe = requestsSentByMe.length;
+            if (!slotType && !status && !location) {
+                searchResults = slots.filter((slot) => slot.status !== 'Occupied')
+            } else if (slotType && status && location) {
+                searchResults = slots.filter((slot) => slot.slotType !== action.payload.slotType && slot.status !== action.payload.status && !slot.location.includes(action.payload.location))
+            } else if (!slotType && status && !location) {
+                searchResults = slots.filter((slot) => slot.status === action.payload.status)
+            } else if (!slotType && !status && location) {
+                searchResults = slots.filter((slot) => slot.location.includes(action.payload.location))
+            } else if (slotType && !status && !location) {
+                searchResults = slots.filter((slot) => slot.slotType === action.payload.slotType)
+            } else if (slotType && !status && location) {
+                searchResults = slots.filter((slot) => slot.slotType !== action.payload.slotType && !slot.location.includes(action.payload.location))
+            } else if (!slotType && status && location) {
+                searchResults = slots.filter((slot) => slot.status === action.payload.status && slot.location.includes(action.payload.location))
+            } else if (slotType && status && !location) {
+                searchResults = slots.filter((slot) => slot.slotType !== action.payload.slotType && slot.status !== action.payload.status)
+            } 
+            
+            state.searchResults = searchResults;
         }
     },
     extraReducers: {
-        [getJoinRequests.pending] : (state)=> {
+        [getSlotsForOfficeSpace.pending] : (state)=> {
             state.isLoading = true;
         },
-        [getJoinRequests.fulfilled] : (state,action) => {
+        [getSlotsForOfficeSpace.fulfilled] : (state,action) => {
             state.isLoading = false;
-            state.listOfJoinRequests = action.payload;
+            state.slotsForOfficeSpace = action.payload;
+            state.numberOfSlotsForOfficeSpace = action.payload.length;
+
+            state.availableSlots = action.payload.filter(element => element.status === 'available');
+            state.numberOfAvailableSlots = state.availableSlots.length;
+
+            state.bookedSlots = action.payload.filter(element => element.status === 'booked');
+            state.numberOfBookedSlots = state.bookedSlots.length;
+
+            state.unavailableSlots = action.payload.filter(element => element.status === 'unavailable');
+            state.numberOfUnavailableSlots = state.unavailableSlots.length;
         },
-        [getJoinRequests.rejected] : (state) => {
+        [getSlotsForOfficeSpace.rejected] : (state) => {
             state.isLoading = false;
         },
-        [getJoinRequestDetails.pending] : (state)=> {
+        [getSlotDetails.pending] : (state)=> {
             state.isLoading = true;
         },
-        [getJoinRequestDetails.fulfilled] : (state,action) => {
+        [getSlotDetails.fulfilled] : (state,action) => {
             state.isLoading = false;
-            state.selectedJoinRequest = action.payload;
+            state.selectedSlot = action.payload;
         },
-        [getJoinRequestDetails.rejected] : (state) => {
+        [getSlotDetails.rejected] : (state) => {
             state.isLoading = false;
-        },
-        [updateJoinRequest.pending] : (state)=> {
-            state.isProcessing = true;
-        },
-        [updateJoinRequest.fulfilled] : (state,action) => {
-            state.isProcessing = false;
-        },
-        [updateJoinRequest.rejected] : (state) => {
-            state.isProcessing = false;
         }
     }
 });
 
 export const { 
-    updateSelectedJoinRequest,
-    getJoinRequestsStatistics
-} = joinRequestSlice.actions;
-export default joinRequestSlice.reducer;
+    updateSelectedSlot,
+    searchSlot,
+} = slotSlice.actions;
+export default slotSlice.reducer;

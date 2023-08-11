@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { APIS } from '../../utils/APIS';
 
 const initialState = {
     listOfRentRequestsSentToMe: [],
@@ -9,20 +8,21 @@ const initialState = {
     numberOfRentRequestsSentByMe: 0,
     selectedRentRequest: {},
     recentRentRequests: [],
+    numberOfRecentRentRequests: 0,
     isLoading: false,
     isProcessing: false,
 }
 
 export const getRentRequests = createAsyncThunk(
     'rentRequest/getRentRequests',
-    async (userId, thunkAPI) => {
+    async (filter, thunkAPI) => {
+        const { userId } = filter;
         try {
-            const response = await axios.get(APIS.rentRequestApis.list);
+            const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/list`);
             response.data.rentRequests.forEach(element => {
                 element.id = element._id;
             });
-            thunkAPI.dispatch({ type: 'rentRequest/getRentRequestsStatistics', payload: { user: userId, rentRequests: response.data.rentRequests } });
-            return response.data.rentRequests; 
+            return {userId: userId, rentRequests: response.data.rentRequests}; 
         } catch (error) {
             return thunkAPI.rejectWithValue('Something went wrong!');
         }
@@ -31,9 +31,10 @@ export const getRentRequests = createAsyncThunk(
 
 export const getRentRequestDetails = createAsyncThunk(
     'rentRequest/getRentRequestDetails',
-    async (rentRequestId, thunkAPI) => {
+    async (filter, thunkAPI) => {
+        const { rentRequestId } = filter;
         try {
-            const response = await axios.get(APIS.rentRequestApis.findById+rentRequestId);    
+            const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/findById?id=${rentRequestId}`);    
             return response.data.rentRequest; 
         } catch (error) {
             return thunkAPI.rejectWithValue('Something went wrong!');
@@ -41,20 +42,6 @@ export const getRentRequestDetails = createAsyncThunk(
     }
 );
 
-export const updateRentRequest = createAsyncThunk(
-    'rentRequest/updateRentRequest',
-    async ( update, thunkAPI) => {
-        try {
-            const { id, rentRequest } = update;
-            var response = await axios.put(APIS.rentRequestApis.update+id, rentRequest);
-            thunkAPI.dispatch({ type: 'rentRequest/updateSelectedRentRequest', payload: response.data.rentRequest });
-            thunkAPI.dispatch(getRentRequests());
-            return response.data.rentRequest; 
-        } catch (error) {
-            return thunkAPI.rejectWithValue('Something went wrong!');
-        }
-    }
-);
 
 const rentRequestSlice = createSlice({
     name: 'rentRequest',
@@ -62,22 +49,6 @@ const rentRequestSlice = createSlice({
     reducers: {
         updateSelectedRentRequest: (state, action) => {
             state.selectedRentRequest = action.payload.rentRequest;
-        },
-        getRentRequestsStatistics: (state, action) => {
-            let requestsToMyProperties = [];
-            let requestsSentByMe = [];
-            action.payload.rentRequests.forEach(element => {
-                if (element.propertyOwnerId === action.payload.user) {
-                    requestsToMyProperties.push(element);
-                }
-                if (element.requestingUserId === action.payload.user) {
-                    requestsSentByMe.push(element);
-                }
-            });
-            state.listOfRentRequestsSentToMe = requestsToMyProperties;
-            state.numberOfRentRequestsSentToMe = requestsToMyProperties.length;
-            state.listOfRentRequestsSentByMe = requestsSentByMe;
-            state.numberOfRentRequestsSentByMe = requestsSentByMe.length;
         }
     },
     extraReducers: {
@@ -86,7 +57,26 @@ const rentRequestSlice = createSlice({
         },
         [getRentRequests.fulfilled] : (state,action) => {
             state.isLoading = false;
-            state.listOfRentRequests = action.payload;
+            const { userId, rentRequests } = action.payload;
+
+            state.listOfRentRequests = rentRequestSlice;
+
+            let requestsSentToMe = [];
+            let requestsSentByMe = [];
+
+            rentRequests.forEach(element => {
+                if (element.officeSpaceOwnerId === userId) {
+                    requestsSentToMe.push(element);
+                }
+                if (element.requestingUserId === userId) {
+                    requestsSentByMe.push(element);
+                }
+            });
+
+            state.listOfRentRequestsSentToMe = requestsSentToMe;
+            state.numberOfRentRequestsSentToMe = requestsSentToMe.length;
+            state.listOfRentRequestsSentByMe = requestsSentByMe;
+            state.numberOfRentRequestsSentByMe = requestsSentByMe.length;
         },
         [getRentRequests.rejected] : (state) => {
             state.isLoading = false;
@@ -100,21 +90,9 @@ const rentRequestSlice = createSlice({
         },
         [getRentRequestDetails.rejected] : (state) => {
             state.isLoading = false;
-        },
-        [updateRentRequest.pending] : (state)=> {
-            state.isProcessing = true;
-        },
-        [updateRentRequest.fulfilled] : (state,action) => {
-            state.isProcessing = false;
-        },
-        [updateRentRequest.rejected] : (state) => {
-            state.isProcessing = false;
         }
     }
 });
 
-export const { 
-    updateSelectedRentRequest,
-    getRentRequestsStatistics
-} = rentRequestSlice.actions;
+export const { updateSelectedRentRequest } = rentRequestSlice.actions;
 export default rentRequestSlice.reducer;
