@@ -128,15 +128,15 @@ const officeSpaceSlice = createSlice({
             state.isLoading = false;
         },
         [getOwnedOfficeSpaces.pending] : (state)=> {
-            state.isProcessing = true;
+            state.isLoading = true;
         },
         [getOwnedOfficeSpaces.fulfilled] : (state,action) => {
-            state.isProcessing = false;
+            state.isLoading = false;
             state.ownedOfficeSpaces = action.payload;
             state.numberOfOwnedOfficeSpaces = action.payload.length;
         },
         [getOwnedOfficeSpaces.rejected] : (state) => {
-            state.isProcessing = false;
+            state.isLoading = false;
         },
     }
 });

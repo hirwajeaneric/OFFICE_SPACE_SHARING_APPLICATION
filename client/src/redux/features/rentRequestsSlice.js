@@ -59,8 +59,6 @@ const rentRequestSlice = createSlice({
             state.isLoading = false;
             const { userId, rentRequests } = action.payload;
 
-            state.listOfRentRequests = rentRequestSlice;
-
             let requestsSentToMe = [];
             let requestsSentByMe = [];
 

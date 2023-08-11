@@ -5,23 +5,30 @@ import { InnerContainer } from '../components/styled-components/authenticationPa
 import { CustomLeftContainer, HeaderTwo, TwoSidedContainer } from '../components/styled-components/generalComponents';
 import PropertyDetailsForm from '../components/forms/PropertyDetailsForm';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 
-export default function ProperyDetailsUserAccount() {
+export default function SlotDetailsUserAccount() {
   const params = useParams();
-  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({ officeSpaceType: '', rentPrice: '', location: '', mapCoordinates: '', dimensions: '', description: '', bedRooms: '', bathRooms: '', furnished: false });
+  const [userData, setUserData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/findById?id=${params.id}`)
+    setUserData(JSON.parse(localStorage.getItem('usrInfo')));
+
+    axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/findById/id=${params.officeSpaceId}`)
     .then(response => {
       setFormData(response.data.officeSpace);
-      dispatch({type: 'officeSpace/updateSelectedOfficeSpace', payload: response.data.officeSpace});
     })
     .catch(error => console.log(error));
-  },[dispatch, params.id]);
+  },[params.officeSpaceId]);
 
-  const { isLoading, selectedOfficeSpace } = useSelector(state => state.officeSpace);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    },1500);
+  },[])
 
   return (
     <div>
@@ -35,7 +42,11 @@ export default function ProperyDetailsUserAccount() {
         <TwoSidedContainer style={{ alignItems: 'flex-start'}}>
           <CustomLeftContainer style={{ justifyContent:'flex-start', flexDirection: 'column', gap: '20px', marginBottom: '40px', width: '100%' }}>
             <HeaderTwo style={{ margin: '0', borderBottom: '1px solid rgb(120,116,116, 0.5)', paddingBottom: '10px', width: '100%' }}>Office space Details</HeaderTwo>
-            <PropertyDetailsForm formData={formData} setFormData={setFormData}/>
+            <PropertyDetailsForm 
+              formData={formData} 
+              setFormData={setFormData} 
+              userData={userData}
+            />
           </CustomLeftContainer>
         </TwoSidedContainer>
         }

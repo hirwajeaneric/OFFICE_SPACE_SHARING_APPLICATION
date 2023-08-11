@@ -28,6 +28,7 @@ import RecievedRentRequests from './components/sections/RecievedRentRequests';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import { getUserDetails } from './redux/features/userSlice';
+import SlotDetailsUserAccount from './pages/SlotDetailsUserAccount';
 
 function App() {
   const dispatch = useDispatch();
@@ -65,7 +66,6 @@ function App() {
 
             {/* Unrestricted Routes  */}
             <Route path='upload' element={localStorage.getItem(`usrTkn`) ? <PostProperty /> : <Navigate replace to='/signin' />} />
-            <Route path='upload' element={localStorage.getItem(`usrTkn`) ? <PostProperty /> : <Navigate replace to='/signin' />} />
             <Route path='user/:fullName' element={localStorage.getItem(`usrTkn`) ? <UserAccount /> : <Navigate replace to='/signin' />} >
               <Route path='overview' element={<UserAccountHome />} />
               <Route path='settings' element={<UserAccountSettings />} />
@@ -76,7 +76,8 @@ function App() {
                 <Route path='all/sent' element={<SentRentRequests />} />
                 <Route path='all/recieved' element={<RecievedRentRequests />} />
               </Route>
-              <Route path='space/:officeSpaceId' element={<PropertyDetailsUserAccount />} />
+              <Route path='space/:id' element={<PropertyDetailsUserAccount />} />
+              <Route path='slot/:slotId' element={<SlotDetailsUserAccount />} />
               <Route path='rent-request/:rentRequestId' element={<RentRequestDetails />} />
               <Route path='tenant/:tenantId' element={<TenantInfo />} />
             </Route>

@@ -15,9 +15,7 @@ export default function PropertyDetailsHome() {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  
   const [user, setUser] = useState({});
-  const [postedByMe, setPostedByMe] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('usrInfo')));

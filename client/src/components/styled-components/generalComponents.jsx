@@ -160,6 +160,36 @@ export const LeftContainer = styled.div`
     }
 `;
 
+export const OfficeSpaceDetailsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+
+    div.image-container {
+        width: 49%;
+        background-size: cover;
+    }
+
+    div.space-details {
+        width: 49%;
+    }
+
+    @media (max-width: 1080px) {
+            
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+    }
+`;
+
+
 export const RightContainer = styled.div`
     display: flex;
     justify-content: center;

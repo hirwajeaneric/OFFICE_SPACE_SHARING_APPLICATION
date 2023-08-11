@@ -82,7 +82,7 @@ export default function NavigationBar() {
                 <NavLink to={'/'} onClick={handleCloseNav}>Home</NavLink>
                 <NavLink to={'/aboutus'} onClick={handleCloseNav}>About Us</NavLink>
                 <NavLink to={'/contactus'} onClick={handleCloseNav}>Contact Us</NavLink>
-                <NavLink to={'/post'} onClick={handleCloseNav}>Upload office</NavLink>
+                <NavLink to={'/upload'} onClick={handleCloseNav}>Upload office</NavLink>
                 {localStorage.getItem('usrTkn') &&
                   <NavLink to={`/user/${userInfo.fullName.split(' ').join('')}/overview`} onClick={handleCloseNav}>My Account</NavLink>
                 }
