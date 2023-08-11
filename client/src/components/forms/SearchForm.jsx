@@ -39,11 +39,12 @@ export default function SearchForm() {
     <SearchFromContainer style={{ margin: '20px 0'}} onSubmit={executeSearch}>
 
         {/* Property Type  */}
-        <CustomFormControlOne sx={{ m: 1, minWidth: 120 }}>
+        <CustomFormControlOne size='medium' sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="property-type">Space activity Type</InputLabel>
             <Select
                 labelId="officeSpaceType"
                 id="officeSpaceType"
+                size='medium'
                 sx={{ background: 'white' }}
                 value={officeSpaceType}
                 onChange={handleChangeOfficeSpaceType}
@@ -80,8 +81,8 @@ export default function SearchForm() {
         
         {/* Search Button  */}
         {window.location.pathname === '/search' ? 
-            <Button type='submit' variant="contained" size='large' startIcon={<GridSearchIcon />}> Search</Button> : 
-            <Button type='submit' variant="contained" size='large' startIcon={<GridSearchIcon />}></Button>
+            <Button type='submit' variant="contained" size='large' startIcon={<GridSearchIcon />}>Search</Button> : 
+            <Button type='submit' variant="contained" size='large' startIcon={<GridSearchIcon style={{ fontSize: '270%'}}/>}></Button>
         }   
     </SearchFromContainer>
   )

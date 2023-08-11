@@ -10,18 +10,18 @@ export default function Banner() {
   return (
     <FullWidthContainer 
       style={{ 
-          background:'url("/imgs/bannerImage.jpg"), rgba(0,0,0,0.5)',
+          background:'url("/imgs/bannerImage.jpg"), rgba(0,0,0,0.7)',
           backgroundSize:'cover',
           backgroundBlendMode: 'darken',
           backgroundRepeat: 'no-repeat',
       }}>
       <PageSizedContainer style={{ height: '100vh' }}>
           <div style={{ width: '80%'}}>
-            <HeaderOne style={{color: 'white' }}>Find an office space or a slot of your convenience.</HeaderOne>
+            <HeaderOne style={{color: 'white', width: '100%', textAlign: 'center' }}>Find an office space or a slot of your convenience.</HeaderOne>
             <SearchForm />
             {isLoading ? 
-              <p style={{color: 'white',}}>Loading...</p> :
-              <HeaderTwo style={{color: 'white',}}>{numberOfOfficeSpaces} office spaces and {numberOfAllAvailableSlots} slots to choose from.</HeaderTwo>
+              <p style={{color: 'white', width: '100%', textAlign: 'center'}}>Loading...</p> :
+              <HeaderTwo style={{color: 'white',width: '100%', textAlign: 'center'}}>{numberOfOfficeSpaces} office spaces and {numberOfAllAvailableSlots} slots to choose from.</HeaderTwo>
             }
           </div>
       </PageSizedContainer>

@@ -34,7 +34,7 @@ export default function UserAccount() {
                 <NavLink to={'overview'}>
                   <span>Overview</span> 
                 </NavLink>
-                <NavLink to={'owned-properties'}>
+                <NavLink to={'owned-spaces'}>
                   <span>Owned spaces</span> 
                   <span className='quantity'>{numberOfOwnedOfficeSpaces}</span>
                 </NavLink>

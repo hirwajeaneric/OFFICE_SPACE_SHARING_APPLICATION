@@ -15,7 +15,7 @@ export default function OwnedProperties() {
         <meta name="description" content={`List of all my properties.`} /> 
       </Helmet>
       <InnerContainer style={{ width: '100%', alignItems:'flex-start', margin: '0', background: 'none', borderTop: 'none' }}>
-        <HeaderTwo style={{ margin: '0', borderBottom: '1px solid rgb(120,116,116, 0.5)', paddingBottom: '10px', width: '100%' }}>Owned Properties</HeaderTwo>
+        <HeaderTwo style={{ margin: '0', borderBottom: '1px solid rgb(120,116,116, 0.5)', paddingBottom: '10px', width: '100%' }}>My office spaces</HeaderTwo>
         <OwnedOfficeSpacesTable data={ownedOfficeSpaces} />
       </InnerContainer>
     </div>

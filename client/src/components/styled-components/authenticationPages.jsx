@@ -222,11 +222,11 @@ export const CustomRequestsNavLink= styled(NavLink)`
     color: black;
 
     &:hover {
-        color: orange;
+        color: #99ccff;
     }
 
     &.active {
-        color: green;
+        color: #0059b3;
         font-weight: 600;
     }
 

@@ -640,7 +640,7 @@ export const SideMenu = styled.div`
         span.quantity {
             padding: 2px;
             border-radius: 5px;
-            background: #66cc99;
+            background: #99ccff;
             font-size: 80%;
         }
 
@@ -650,7 +650,7 @@ export const SideMenu = styled.div`
         }
 
         &.active {
-            background-color: green;
+            background-color: #0073e6;
             font-weight: 700;
             font-size: 100%;
             color: white;
@@ -700,7 +700,7 @@ export const StatsCard = styled.div`
             gap: 10px;
             align-items: center;
             text-decoration: none;
-            color: green;
+            color: #0073e6;
         }
     }
 

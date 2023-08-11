@@ -8,7 +8,7 @@ export default function AboutUsSection() {
       <PageSizedContainer>
           <TwoSidedContainer style={{ alignItems: 'flex-start', padding: '60px 0'}}>
             <LeftContainer style={{ flexDirection: 'column', marginBottom: '20px', padding: '10px'}}>
-              <img src='/imgs/logo2.png' alt='' style={{ width: '100%', border: '1px solid green', margin: '20px 0 40px' }}/>
+              <img src='/imgs/logo2.png' alt='' style={{ width: '100%', border: '1px solid #99ccff', margin: '20px 0 40px' }}/>
               <p>
                 OSSA is an acronym of the word: "Office Space Sharing Application".
                 <br /><br /> 

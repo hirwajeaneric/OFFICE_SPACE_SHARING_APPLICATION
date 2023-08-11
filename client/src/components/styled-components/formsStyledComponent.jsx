@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SearchFromContainer = styled.form`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
     width: 100%;

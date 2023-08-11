@@ -45,8 +45,8 @@ export const DesktopNav = styled.div`
         }
 
         &.active {
-            border-bottom: 3px solid green;
-            color: green;
+            border-bottom: 3px solid #003366;
+            color: #003366;
         }
     }
 

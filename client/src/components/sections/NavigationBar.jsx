@@ -60,7 +60,7 @@ export default function NavigationBar() {
             {localStorage.getItem('usrTkn') && 
               <div>
                 <IconButton size="large" sx={{ padding: '0px' }} aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
-                  <AccountCircle style={{ color: 'green' }}/>
+                  <AccountCircle style={{ color: '#003366' }}/>
                 </IconButton>
                 <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem>{userInfo.fullName}</MenuItem>
