@@ -5,6 +5,8 @@ const initialState = {
     listOfOfficeSpaces: [],
     numberOfOfficeSpaces: 0,
     selectedOfficeSpace: {},
+    
+    locationsOfAvailableOfficeSpaces: [],
 
     ownedOfficeSpaces: [],
     numberOfOwnedOfficeSpaces: 0,
@@ -58,6 +60,14 @@ export const getOfficeSpaceDetails = createAsyncThunk(
     }
 );
 
+const getUniqueLocations = (officeSpaces) => {
+    const uniqueLocations = new Set();
+    officeSpaces.forEach((officeSpace) => {
+      uniqueLocations.add(officeSpace.location);
+    });
+    return Array.from(uniqueLocations);
+};
+
 const officeSpaceSlice = createSlice({
     name: 'officeSpace',
     initialState,
@@ -101,6 +111,7 @@ const officeSpaceSlice = createSlice({
             state.isLoading = false;
             state.listOfOfficeSpaces = action.payload;
             state.numberOfOfficeSpaces = action.payload.length;
+            state.locationsOfAvailableOfficeSpaces = getUniqueLocations(action.payload);
         },
         [getOfficeSpaces.rejected] : (state) => {
             state.isLoading = false;

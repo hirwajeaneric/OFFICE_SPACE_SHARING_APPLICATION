@@ -26,9 +26,15 @@ const officeSpaceSchema = new mongoose.Schema({
                 'Business Center',
                 'Incubator Space',
                 'Flex Space',
-                'Startup Hub'
+                'Startup Hub',
+                'Food Store',
+                'Electronic Hardware Store',
+                'Shop',
+                'Warehouse',
+                'Multi-purpose store',
+                'Classroom complex'
               ],
-            message: '{VALUE} is not supported as a officeSpace type.'
+            message: '{VALUE} is not supported as a office space type.'
         }
     },
     numberOfSlots: {
