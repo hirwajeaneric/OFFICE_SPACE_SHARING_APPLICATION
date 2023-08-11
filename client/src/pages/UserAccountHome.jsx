@@ -7,10 +7,9 @@ import { ArrowForward } from '@mui/icons-material';
 import { useSelector } from 'react-redux'
 
 export default function UserAccountHome() {
-  const { isLoading, numberOfRentedProperties, numberOfOwnedProperties, numberOfTenants } = useSelector(state => state.property);
+  const { isLoading, numberOfOwnedOfficeSpaces } = useSelector(state => state.officeSpace);
+  const { numberOfRentedSlots } = useSelector(state => state.slot);
   const { numberOfRentRequestsSentByMe, numberOfRentRequestsSentToMe } = useSelector(state => state.rentRequest);
-  const { numberOfJoinRequestsSentByMe, numberOfJoinRequestsSentToMe } = useSelector(state => state.joinRequest);
-  const { numberOfContracts } = useSelector(state => state.contract);
   
   return (
     <div>
@@ -26,23 +25,23 @@ export default function UserAccountHome() {
             <>
               <StatsCard>
                 <div>
-                  <h4>Owned Properties</h4>
-                  { numberOfOwnedProperties !==0 ?
-                    <Link to={'../owned-properties'}><span>View List</span> <ArrowForward /></Link> :
-                    <Link to={'/post'}><span>Post now</span> <ArrowForward /></Link>
+                  <h4>Owned Office Spaces</h4>
+                  { numberOfOwnedOfficeSpaces !==0 ?
+                    <Link to={'../owned-spaces'}><span>View List</span> <ArrowForward /></Link> :
+                    <Link to={'/upload'}><span>Upload office</span> <ArrowForward /></Link>
                   }
                 </div>
-                <p>{numberOfOwnedProperties}</p>
+                <p>{numberOfOwnedOfficeSpaces}</p>
               </StatsCard>
               <StatsCard>
                 <div>
-                  <h4>Rented Apartments</h4>
-                  { numberOfRentedProperties !== 0 ?
-                    <Link to={'../rented-properties'}><span>View List</span> <ArrowForward /></Link> :
-                    <Link to={'/'}><span>View Apartments</span> <ArrowForward /></Link>
+                  <h4>Rented Slots</h4>
+                  { numberOfRentedSlots !== 0 ?
+                    <Link to={'../rented-slots'}><span>View all</span> <ArrowForward /></Link> :
+                    <Link to={'/'}><span>View property</span> <ArrowForward /></Link>
                   }
                 </div>
-                <p>{numberOfRentedProperties}</p>
+                <p>{numberOfRentedSlots}</p>
               </StatsCard>
               <StatsCard>
                 <div>
@@ -57,27 +56,6 @@ export default function UserAccountHome() {
                   <Link to={'../rent-requests/all/recieved'}><span>View Requests</span> <ArrowForward /></Link>
                 </div>
                 <p>{numberOfRentRequestsSentToMe}</p>
-              </StatsCard>
-              <StatsCard>
-                <div>
-                  <h4>Join Requests Sent</h4>
-                  <Link to={'../join-requests/all/sent'}><span>View Requests</span> <ArrowForward /></Link>
-                </div>
-                <p>{numberOfJoinRequestsSentByMe}</p>
-              </StatsCard>
-              <StatsCard>
-                <div>
-                  <h4>Join Requests Recieved</h4>
-                  <Link to={'../join-requests/all/recieved'}><span>View Requests</span> <ArrowForward /></Link>
-                </div>
-                <p>{numberOfJoinRequestsSentToMe}</p>
-              </StatsCard>
-              <StatsCard>
-                <div>
-                  <h4>Contracts</h4>
-                  <Link to={'../contracts'}><span>My Contracts</span> <ArrowForward /></Link>
-                </div>
-                <p>{numberOfContracts}</p>
               </StatsCard>
             </>
           }

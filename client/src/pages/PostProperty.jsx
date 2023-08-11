@@ -8,7 +8,7 @@ export default function PostProperty() {
   return (
     <FullWidthContainer style={{ flexDirection: 'column',}}>
       <Helmet>
-        <title>Post new property</title>
+        <title>Uploa new space</title>
         <meta name="description" content={`Post a new property.`} /> 
       </Helmet>
       <CustomizedBanner title={'Post new property.'} height={'20vh'} />

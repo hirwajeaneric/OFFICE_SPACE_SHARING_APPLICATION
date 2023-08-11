@@ -52,7 +52,7 @@ export default function RentRequestDetailsForm() {
     console.log(formData);
     console.log(APIS.rentRequestApis.update+params.rentRequestId);
 
-    axios.put(APIS.rentRequestApis.update+params.rentRequestId, formData)
+    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/update?id=${params.rentRequestId}`, formData)
     .then(response => {
       setTimeout(() => {
         if (response.status === 200) {

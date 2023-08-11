@@ -26,7 +26,7 @@ export default function RecentlyPosted() {
               {listOfOfficeSpaces.map((officeSpace, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <CustomPropertyCard>
-                    {officeSpace.picture && <CardMedia component="div" sx={{ pt: '56.25%',}} image={`${APIS.files.officeSpace}${officeSpace.picture}`} />}
+                    {officeSpace.picture && <CardMedia component="div" sx={{ pt: '56.25%',}} image={`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/spaces/${officeSpace.picture}`} />}
                     <CardContent sx={{ flexGrow: 1 }}>
                       <span style={{ padding: '4px 12px', background: 'rgba(100, 100, 255, 0.5)' }}>{officeSpace.status}</span>
                       <Typography variant="h5" component="h2" style={{ marginTop: '20px' }}>

@@ -4,7 +4,6 @@ import { TextField, InputLabel, MenuItem, Select, Button } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
-import { APIS } from '../../utils/APIS';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -119,18 +118,14 @@ export default function PostPropertyForm() {
       
       setProgress({ value: 'Processing ...', disabled: true});
 
-      axios.post(APIS.propertyApis.add , data, config)
+      axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/add` , data, config)
       .then(response => {
-        setTimeout(()=>{
-          if (response.status === 201) {
-            setResponseMessage({ message: 'Redirecting to payment page', severity: 'success' });
-            setOpen(true);
-  
-            setProgress({ value: '', disabled: false });
-            // window.location.replace(`/user/${params.fullName}/overview`);
-            window.location.replace('https://book.stripe.com/test_9AQaH5dbydfG03S4gg');
-          }
-        }, 2000); 
+        if (response.status === 201) {
+          // setResponseMessage({ message: 'Redirecting to payment page', severity: 'success' });
+          // setOpen(true);
+          setProgress({ value: '', disabled: false });
+          window.location.replace('https://book.stripe.com/test_9AQaH5dbydfG03S4gg');
+        }
       })
       .catch(error => {
         if (error.response && error.response.status >= 400 && error.response.status <= 500) {

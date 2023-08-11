@@ -71,7 +71,7 @@ function App() {
               <Route path='overview' element={<UserAccountHome />} />
               <Route path='settings' element={<UserAccountSettings />} />
               <Route path='rented-slots' element={<RentedProperties />} />
-              <Route path='owned-slots' element={<OwnedProperties />} />
+              <Route path='owned-spaces' element={<OwnedProperties />} />
               <Route path='rent-requests' element={<RentRequestList />} >
                 <Route path='' element={<SentRentRequests />} />
                 <Route path='all/sent' element={<SentRentRequests />} />

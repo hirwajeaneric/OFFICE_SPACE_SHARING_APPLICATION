@@ -16,6 +16,9 @@ const initialState = {
     unavailableSlots: [],
     numberOfUnavailableSlots: 0,
 
+    rentedSlots: [],
+    numberOfRentedSlots: 0,
+
     isLoading: false,
     searchQuery: {},
     searchResults: [],
@@ -42,6 +45,22 @@ export const getSlotsForOfficeSpace = createAsyncThunk(
         const { spaceId } = filter;
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/findBySpaceId?spaceId=${spaceId}`);
+            response.data.slots.forEach(element => {
+                element.id = element._id;
+            });
+            return response.data.slots; 
+        } catch (error) {
+            return thunkAPI.rejectWithValue('Something went wrong!');
+        }
+    }
+);
+
+export const getMyRentedSlots = createAsyncThunk(
+    'slot/getMyRentedSlots',
+    async (filter, thunkAPI) => {
+        const { occupantId } = filter;
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/findByOccupantId?occupantId=${occupantId}`);
             response.data.slots.forEach(element => {
                 element.id = element._id;
             });
@@ -110,6 +129,17 @@ const slotSlice = createSlice({
             state.numberOfAllAvailableSlots = state.allAvailableSlots.length;
         },
         [getAllAvailableSlots.rejected] : (state) => {
+            state.isLoading = false;
+        },
+        [getMyRentedSlots.pending] : (state)=> {
+            state.isLoading = true;
+        },
+        [getMyRentedSlots.fulfilled] : (state,action) => {
+            state.isLoading = false;
+            state.rentedSlots = action.payload;
+            state.numberOfRentedSlots = action.payload.length;
+        },
+        [getMyRentedSlots.rejected] : (state) => {
             state.isLoading = false;
         },
         [getSlotsForOfficeSpace.pending] : (state)=> {

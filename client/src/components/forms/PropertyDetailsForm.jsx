@@ -4,7 +4,6 @@ import { TextField, InputLabel, MenuItem, Select, Button } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
-import { APIS } from '../../utils/APIS';
 import { useDispatch } from 'react-redux';
 import { getProperties } from '../../redux/features/propertySlice';
 import { useParams } from 'react-router-dom';
@@ -73,7 +72,7 @@ export default function PropertyDetailsForm(props) {
 
     setProgress({ value: 'Processing ...', disabled: true});
 
-    axios.put(APIS.propertyApis.update+params.propertyId , data, config)
+    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/findById?id=${params.officeSpaceId}` , data, config)
     .then(response => {
       if (response.status === 200) {
         setResponseMessage({ message: response.data.message, severity: 'success' });

@@ -11,44 +11,34 @@ const columns = [
     hide:true
   },
   {
-    field: 'rentPrice',
+    field: 'price',
     headerName: 'Price',
-    width: 80,
-  },
-  {
-    field: 'propertyType',
-    headerName: 'Type',
-    width: 130,
-  },
-  {
-    field: 'bedRooms',
-    headerName: 'Bed rooms',
-    width: 90,
-  },
-  {
-    field: 'bathRooms',
-    headerName: 'Bath rooms',
-    width: 90,
-  },
-  {
-    field: 'furnished',
-    headerName: 'Furnished',
     width: 80,
   },
   {
     field: 'status',
     headerName: 'Status',
+    width: 130,
+  },
+  {
+    field: 'occupantName',
+    headerName: 'Occupant',
+    width: 90,
+  },
+  {
+    field: 'occupantPhone',
+    headerName: 'Phone of occupant',
+    width: 90,
+  },
+  {
+    field: 'occupiedOn',
+    headerName: 'Occupied on',
     width: 80,
   },
   {
     field: 'dimensions',
     headerName: 'Dimensions',
     width: 95,
-  },
-  {
-    field: 'location',
-    headerName: 'Location',
-    width: 110,
   },
   {
     field: 'actions',
@@ -77,7 +67,7 @@ export const TableStyles = {
 
 var rows = [];
 
-export default function RentedPropertiesTable({data}) {
+export default function RentedSlotsTable({data}) {
   rows = data;
 
   return (
@@ -106,7 +96,7 @@ const TableActions = ({parameters}) => {
     <Box>
       <Tooltip title='View / Edit'>
         <IconButton onClick={() => {  
-          navigate(`/user/${params.fullName}/property/${parameters.row._id}`);
+          navigate(`/user/${params.fullName}/slot/${parameters.row._id}`);
           }}>
           <Preview />
         </IconButton>

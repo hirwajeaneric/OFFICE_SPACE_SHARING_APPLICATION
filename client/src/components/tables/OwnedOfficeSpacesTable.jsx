@@ -7,28 +7,33 @@ import { useNavigate, useParams } from 'react-router-dom';
 const columns = [
   {   
     field: '_id', 
-    headerName: '_ID', 
+    headerName: 'ID', 
     hide:true
   },
   {
-    field: 'fullName',
-    headerName: 'Name',
-    width: 200,
+    field: 'officeSpaceType',
+    headerName: 'Space type',
+    width: 80,
   },
   {
-    field: 'email',
-    headerName: 'Email',
-    width: 200,
+    field: 'numberOfSlots',
+    headerName: 'Number of slots',
+    width: 130,
   },
   {
-    field: 'phone',
-    headerName: 'Phone',
-    width: 150,
+    field: 'availableSlots',
+    headerName: 'Available slots',
+    width: 90,
   },
   {
-    field: 'comment',
-    headerName: 'Comment',
-    width: 200,
+    field: 'lastUpdated',
+    headerName: 'Updated on',
+    width: 80,
+  },
+  {
+    field: 'location',
+    headerName: 'Location',
+    width: 110,
   },
   {
     field: 'actions',
@@ -57,7 +62,7 @@ export const TableStyles = {
 
 var rows = [];
 
-export default function OwnedPropertiesTable({data}) {
+export default function OwnedOfficeSpacesTable({data}) {
   rows = data;
 
   return (
@@ -85,7 +90,7 @@ const TableActions = ({parameters}) => {
     <Box>
       <Tooltip title='View / Edit'>
         <IconButton onClick={() => {  
-          navigate(`/user/${params.fullName}/join-request/${parameters.row._id}`);
+          navigate(`/user/${params.fullName}/space/${parameters.row._id}`);
           }}>
           <Preview />
         </IconButton>

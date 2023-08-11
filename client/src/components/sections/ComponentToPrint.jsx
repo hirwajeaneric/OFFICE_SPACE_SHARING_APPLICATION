@@ -13,14 +13,14 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
     const [tenants, setTenants] = useState([]);
 
     // FETCHING CONTRACT INFORMATION.
-    useEffect(() => {
-        axios.get(APIS.contractApis.findById+params.contractId)
-        .then(response => {
-            setContractDetails(response.data.contract);
-            setTenants(response.data.contract.tenants);
-        })
-        .catch(error => console.log(error));
-    },[params])
+    // useEffect(() => {
+    //     axios.get(APIS.contractApis.findById+params.contractId)
+    //     .then(response => {
+    //         setContractDetails(response.data.contract);
+    //         setTenants(response.data.contract.tenants);
+    //     })
+    //     .catch(error => console.log(error));
+    // },[params])
 
     return (
         <ReportPaperContainer ref={ref}>

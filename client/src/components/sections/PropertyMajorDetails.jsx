@@ -5,26 +5,14 @@ import { PropertyDetailsStyles } from '../styled-components/generalComponents';
 
 export default function PropertyMajorDetails({descriptions}) {
     const [details, setDetails] = useState({
-        rentPrice: 0,
-        propertyType: '',
-        bedRooms: 0,
-        bathRooms: 0,
-        status: '',
-        furnished: false, 
-        dimensions: 0, 
-        location: '',
+        price: 0,
+        dimensions: 0,
     });
 
     useEffect(() => {
         setDetails({
-            rentPrice: descriptions.rentPrice,
-            propertyType: descriptions.propertyType,
-            bedRooms: descriptions.bedRooms,
-            bathRooms: descriptions.bathRooms,
-            status: descriptions.status,
-            furnished: descriptions.furnished, 
+            price: descriptions.price,
             dimensions: descriptions.dimensions, 
-            location: descriptions.location,
         })
     },[descriptions])
 

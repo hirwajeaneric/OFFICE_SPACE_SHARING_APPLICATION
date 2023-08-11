@@ -62,7 +62,7 @@ export default function UserAccountSettings() {
     }
 
     setIsProcessing(true);
-    axios.put(APIS.userApis.updateUserAccount+user.id, userInfo, config)
+    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/findById?id=${user.id}`, userInfo, config)
     .then(response => {
       if (response.status === 200) {
         setIsProcessing(false);
@@ -85,7 +85,7 @@ export default function UserAccountSettings() {
 
   const requestPasswordReset = (e) => {
     if (userInfo.email !== '') {
-        axios.put(APIS.userApis.requestPasswordReset, {email: userInfo.email})
+        axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/requestPasswordReset`, { email: userInfo.email })
       .then(response => {
         if (response.status === 200) {
           setIsProcessing(false);
