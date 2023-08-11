@@ -13,7 +13,7 @@ const columns = [
   {
     field: 'officeSpaceType',
     headerName: 'Space type',
-    width: 80,
+    width: 200,
   },
   {
     field: 'numberOfSlots',
@@ -23,17 +23,17 @@ const columns = [
   {
     field: 'availableSlots',
     headerName: 'Available slots',
-    width: 90,
+    width: 110,
   },
   {
     field: 'lastUpdated',
     headerName: 'Updated on',
-    width: 80,
+    width: 150,
   },
   {
     field: 'location',
     headerName: 'Location',
-    width: 110,
+    width: 150,
   },
   {
     field: 'actions',

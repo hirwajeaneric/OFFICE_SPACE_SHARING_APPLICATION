@@ -39,6 +39,7 @@ export const getOwnedOfficeSpaces = createAsyncThunk(
             const response = await axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/findByOwnerId?ownerId=${ownerId}`);
             response.data.officeSpaces.forEach(element => {
                 element.id = element._id;
+                element.lastUpdated = new Date(element.lastUpdated).toDateString()
             });
             return response.data.officeSpaces; 
         } catch (error) {

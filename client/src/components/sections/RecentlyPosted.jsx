@@ -27,7 +27,7 @@ export default function RecentlyPosted() {
                   <CustomPropertyCard>
                     {officeSpace.picture && <CardMedia component="div" sx={{ pt: '56.25%',}} image={`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/spaces/${officeSpace.picture}`} />}
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <span style={{ padding: '4px 12px', background: 'rgba(100, 100, 255, 0.5)' }}>{officeSpace.status}</span>
+                      <span style={{ padding: '4px 12px', background: 'rgba(100, 100, 255, 0.5)' }}>{officeSpace.officeSpaceType}</span>
                       <Typography variant="h5" component="h2" style={{ marginTop: '20px' }}>
                         <LocationOn /> <strong>{officeSpace.location}</strong>
                       </Typography>

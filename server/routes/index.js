@@ -8,7 +8,7 @@ const rentRequest = require('./rentRequest.routes');
 const emailRoutes = require('./email.routes');
 
 router.use('/profile', express.static('./profiles'));
-router.use('/space', express.static('./spaces'));
+router.use('/spaces', express.static('./spaces'));
 
 router.use('/email', emailRoutes);
 router.use('/user', user);

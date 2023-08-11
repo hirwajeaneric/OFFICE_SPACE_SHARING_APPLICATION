@@ -65,6 +65,7 @@ function App() {
 
             {/* Unrestricted Routes  */}
             <Route path='upload' element={localStorage.getItem(`usrTkn`) ? <PostProperty /> : <Navigate replace to='/signin' />} />
+            <Route path='upload' element={localStorage.getItem(`usrTkn`) ? <PostProperty /> : <Navigate replace to='/signin' />} />
             <Route path='user/:fullName' element={localStorage.getItem(`usrTkn`) ? <UserAccount /> : <Navigate replace to='/signin' />} >
               <Route path='overview' element={<UserAccountHome />} />
               <Route path='settings' element={<UserAccountSettings />} />

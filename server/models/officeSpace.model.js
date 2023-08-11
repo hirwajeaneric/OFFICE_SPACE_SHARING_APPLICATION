@@ -40,10 +40,12 @@ const officeSpaceSchema = new mongoose.Schema({
     numberOfSlots: {
         type: Number,
         required: true,
+        default: 0
     },
     availableSlots: { 
         type: Number, 
-        required: false, 
+        required: true,
+        default: 0 
     },
     ownerId: { 
         type: String, 
