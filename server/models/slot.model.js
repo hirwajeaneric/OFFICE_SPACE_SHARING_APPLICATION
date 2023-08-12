@@ -5,6 +5,10 @@ const slotSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    description: {
+        type: String,
+        required: true,
+    },
     number: {
         type: String,
         required: true,

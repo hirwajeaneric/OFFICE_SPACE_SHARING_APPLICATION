@@ -13,7 +13,7 @@ const columns = [
   {
     field: 'price',
     headerName: 'Price',
-    width: 80,
+    width: 120,
   },
   {
     field: 'status',
@@ -23,17 +23,12 @@ const columns = [
   {
     field: 'occupantName',
     headerName: 'Occupant',
-    width: 90,
+    width: 200,
   },
   {
     field: 'occupantPhone',
     headerName: 'Phone of occupant',
-    width: 90,
-  },
-  {
-    field: 'occupiedOn',
-    headerName: 'Occupied on',
-    width: 80,
+    width: 150,
   },
   {
     field: 'dimensions',
@@ -66,7 +61,7 @@ export const TableStyles = {
 
 var rows = [];
 
-export default function RentedSlotsTable({data}) {
+export default function SlotsTable({data}) {
   rows = data;
 
   return (

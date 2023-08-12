@@ -100,6 +100,40 @@ export const TopLeftFlexAlignedContainer = styled.div`
     }
 `;
 
+export const SlotsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    marginTop: 20px;
+    border: 1px solid #d1e0e0; 
+    border-radius: 5px;
+    background: white;
+    padding: 20px;
+    gap: 10px;
+
+    div.header-space {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;    
+    }
+
+    @media (max-width: 1080px) {
+            
+    }
+
+    @media (max-width: 768px) {
+        
+    }
+
+    @media (max-width: 480px) {
+        
+    }
+`;
+
 export const TwoSidedContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -162,18 +196,62 @@ export const LeftContainer = styled.div`
 
 export const OfficeSpaceDetailsContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
+    gap: 20px;
 
     div.image-container {
-        width: 49%;
+        width: 100%;
+        height: 200px;
         background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 20px;
+        
+        h3 {
+            color: white;
+        }
     }
 
-    div.space-details {
-        width: 49%;
+    form.space-details, div.space-details {
+        padding: 0 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        div.left, div.right {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+            width: 49%;
+            
+            p {
+                color: black;
+                font-size: 90%;
+                
+                span {
+                    color: gray;
+                    font-size: 100%;
+                }
+            }
+        }
+
+        div.left {
+
+        }
+
+        div.right {
+
+        }
     }
 
     @media (max-width: 1080px) {
@@ -182,6 +260,14 @@ export const OfficeSpaceDetailsContainer = styled.div`
 
     @media (max-width: 768px) {
         width: 100%;
+        
+        div.space-details {
+            flex-wrap: wrap;
+            gap: 10px;
+            div.left, div.right {
+                width: 100%;
+            }
+        }
     }
 
     @media (max-width: 480px) {

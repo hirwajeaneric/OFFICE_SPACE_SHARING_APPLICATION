@@ -54,10 +54,6 @@ export default function PostOfficeSpaceForm() {
     setFormData({...formData, officeSpaceType: event.target.value});
   };
 
-  // const handleChangeFurnished = (event) => {
-  //   setFormData({...formData, furnished: event.target.value});
-  // };
-
   const handleFileInput = (e) => {
     setPicture(e.target.files[0]);
   }

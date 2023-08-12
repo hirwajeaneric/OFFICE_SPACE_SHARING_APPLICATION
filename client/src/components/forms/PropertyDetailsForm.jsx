@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { CustomFormControlOne, LeftContainer, OfficeSpaceDetailsContainer, RightContainer, TwoSidedContainer, TwoSidedFormContainer } from '../styled-components/generalComponents'
+import { CustomFormControlOne, OfficeSpaceDetailsContainer, TopLeftFlexAlignedContainer } from '../styled-components/generalComponents'
 import { TextField, InputLabel, MenuItem, Select, Button } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { getOfficeSpaces } from '../../redux/features/officeSpaceSlice';
 import { useParams } from 'react-router-dom';
 import { TypesOfOfficeSpaces } from '../../utils/TypesOfOfficeSpaces';
 
@@ -15,13 +13,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function PropertyDetailsForm(props) {
   const { formData, setFormData } = props;
-  const dispatch = useDispatch();
   const params = useParams();
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem('usrInfo')));
-  },[dispatch, params.officeSpaceId]);
+  },[params.officeSpaceId]);
 
   const [picture, setPicture] = useState('');
   
@@ -42,11 +39,6 @@ export default function PropertyDetailsForm(props) {
 
   const handleFileInput = (e) => {
     setPicture(e.target.files[0]);
-  }
-
-  const resetFields = () => {
-    setFormData({ propertyType: '', rentPrice: '', location: '', mapCoordinates: '', dimensions: '', description: '', bedRooms: '', bathRooms: '', furnished: '' });
-    setPicture({});
   }
 
   const handleChange = ({currentTarget: input}) => { 
@@ -77,7 +69,6 @@ export default function PropertyDetailsForm(props) {
       if (response.status === 200) {
         setResponseMessage({ message: response.data.message, severity: 'success' });
         setOpen(true);
-        dispatch(getOfficeSpaces());
         setProgress({ value: '', disabled: false });
         window.location.reload();
       }
@@ -92,19 +83,16 @@ export default function PropertyDetailsForm(props) {
   };
 
   return (
-    <TwoSidedFormContainer onSubmit={handleUpdateProperty} style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', border: '1px solid #d1e0e0', padding: '20px', borderRadius: '5px', background: 'white' }}>
+    <TopLeftFlexAlignedContainer onSubmit={handleUpdateProperty} style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', paddingBottom: '20px', border: '1px solid #d1e0e0', borderRadius: '5px', background: 'white' }}>
+      <OfficeSpaceDetailsContainer>
+        <div className="image-container" style={{ background: "url('"+process.env.REACT_APP_SERVERURL+"/api/v1/ossa/spaces/"+formData.picture+"')", backgroundOrigin: 'initial' }}>
+          <h3>{`Office space in ${formData.location}`}</h3>
+        </div>
+        
         {formData.ownerId === userData.id
-          ?
-          <>
-            <OfficeSpaceDetailsContainer>
-              <div className="image-container" style={{ backgroundImage: "url("+process.env.REACT_APP_SERVERURL+"/api/v1/ossa/spaces/"+formData.pictures+")" }}></div>
-              <div className="space-details">
-
-              </div>
-            </OfficeSpaceDetailsContainer>
-            {/* <ImageCarousel pictures={formData.pictures} /> */}
-            
-            <LeftContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+        ?
+          <form className="space-details">
+            <div className="left">
               <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
               <CustomFormControlOne style={{ width: '100%' }} size='small'>
                 <InputLabel id="officeSpaceType">Apartment Type</InputLabel>
@@ -119,64 +107,41 @@ export default function PropertyDetailsForm(props) {
                   })}
                 </Select>
               </CustomFormControlOne>
-              <TextField id="location" style={{ width: '100%' }} size='small' label="Location" variant="outlined" name='location' value={formData.location || ''} onChange={handleChange} helperText="Use Districts and Sectors. Example: 'Gasabo, Kacyiru'"/>
-            </LeftContainer>
-            <RightContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-              <TextField id="mapCoordinates" style={{ width: '100%' }} size='small' label="Map Coordinates" variant="outlined" name='mapCoordinates' value={formData.mapCoordinates || ''} onChange={handleChange} helperText="Paste or add google map coordinates of the apartment. Example: '-1.951059, 30.094097'"/>
-              <TextField type='file' width={'100%'} id="file" style={{ width: '100%' }} size='small' variant="outlined" onChange={handleFileInput} name='pictures' />
-              {/* <input type='file' id="file" style={{ width: '100%' }} onChange={handleFileInput} name='pictures' /> */}
-              <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'space-between', alignItems:'center', width: '100%' }}>
-                {!progress.disabled && <Button type='submit' variant='contained' size='small' color='primary'>SUBMIT</Button>}
-                {progress.disabled && <Button type='submit' variant='contained' size='medium' color='primary' disabled>{progress.value}</Button>}
-                <Button type='cancel' variant='contained' color='secondary' size='small' onClick={resetFields}>CANCEL</Button>
-              </div>
-            </RightContainer>
-          </>
-          :
-          <>
-          </>
-        }
-
-        {/* COMMAND BUTTONS ************************************************************************************************ */}
-        {formData.ownerId !== userData.id ? 
-          <></> :
-          <>
-            <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'space-between', alignItems:'center', width: '100%' }}>
-              {!progress.disabled && 
-                <Button 
-                  type='submit' 
-                  variant='contained' 
-                  size='small' 
-                  color='primary'>
-                    CONFIRM UPDATES
-                </Button>
-              }
-              {progress.disabled && 
-                <Button 
-                  type='submit' 
-                  variant='contained' 
-                  size='medium' 
-                  color='primary' 
-                  disabled>
-                    {progress.value}
-                </Button>
-              }
-              <Button 
-                type='cancel' 
-                variant='contained' 
-                color='secondary' 
-                size='small' 
-                onClick={resetFields}>
-                  CANCEL
-              </Button>
+            <TextField id="location" style={{ width: '100%' }} size='small' label="Location" variant="outlined" name='location' value={formData.location || ''} onChange={handleChange}/>
             </div>
-          </>
+            <div className="right">
+              <TextField id="mapCoordinates" style={{ width: '100%' }} size='small' label="Map Coordinates" variant="outlined" name='mapCoordinates' value={formData.mapCoordinates || ''} onChange={handleChange} />
+              <TextField type='file' width={'100%'} id="file" style={{ width: '100%' }} size='small' variant="outlined" onChange={handleFileInput} name='pictures' />
+              <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'flex-end', alignItems:'flex-end', width: '100%' }}>
+                {!progress.disabled && <Button type='submit' variant='contained' size='small' color='primary'>UPDATE</Button>}
+                {progress.disabled && <Button type='submit' variant='contained' size='medium' color='primary' disabled>{progress.value}</Button>}
+              </div>
+            </div>
+          </form>
+          :
+          <div className="space-details">
+            <div className="left">
+              <p>Description: <span>{formData.description}</span></p>
+              <p>Space type: <span>{formData.officeSpaceType}</span></p>
+              <p>Number of slots: <span>{formData.numberOfSlots}</span></p>
+              <p>Available slots: <span>{formData.availableSlots}</span></p>
+            </div>
+            <div className="right">
+              <p>Description: <span>{formData.location}</span></p>
+              <p>Description: <span>{formData.mapCoordinates}</span></p>
+              <p>Description: <span>{formData.lastUpdated}</span></p>
+              <p>Description: <span>{formData.ownerName}</span></p>
+            </div>
+          </div>
         }
+      </OfficeSpaceDetailsContainer>
+
+        
 
       {/* Response message Snackbar ****************************************************************************************  */}
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={responseMessage.severity} sx={{ width: '100%' }}>{responseMessage.message}</Alert>
       </Snackbar>
-    </TwoSidedFormContainer>
+    </TopLeftFlexAlignedContainer>
   )
 }
