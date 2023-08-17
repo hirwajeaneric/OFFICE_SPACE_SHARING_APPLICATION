@@ -21,6 +21,11 @@ const columns = [
     width: 130,
   },
   {
+    field: 'dimensions',
+    headerName: 'Dimensions',
+    width: 95,
+  },
+  {
     field: 'occupantName',
     headerName: 'Occupant',
     width: 200,
@@ -29,11 +34,6 @@ const columns = [
     field: 'occupantPhone',
     headerName: 'Phone of occupant',
     width: 150,
-  },
-  {
-    field: 'dimensions',
-    headerName: 'Dimensions',
-    width: 95,
   },
   {
     field: 'actions',

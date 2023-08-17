@@ -126,9 +126,9 @@ export default function PostOfficeSpaceForm() {
   return (
     <TwoSidedFormContainer onSubmit={handleAddOfficeSpace} style={{ justifyContent: 'space-around', alignItems:'flex-start',background: 'white', padding: '20px 10px', border: '1px solid #d1e0e0', borderRadius: '5px' }}>
       <LeftContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-        <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
+        <TextField id="description" style={{ width: '100%' }} size='small' label="Description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
         <CustomFormControlOne style={{ width: '100%' }} size='small'>
-          <InputLabel id="officeSpaceType">Apartment Type</InputLabel>
+          <InputLabel id="officeSpaceType">Office space Type</InputLabel>
           <Select labelId="officeSpaceType" id="officeSpaceType" name='officeSpaceType' value={formData.officeSpaceType} onChange={handleChangeOfficeSpaceType} label="Apartment Type">
             <MenuItem value="">
                 <em>None</em>

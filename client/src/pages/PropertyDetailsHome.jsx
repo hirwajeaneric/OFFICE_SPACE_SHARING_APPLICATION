@@ -29,8 +29,8 @@ export default function PropertyDetailsHome() {
   return (
     <FullWidthContainer>
       <Helmet>
-        <title>Property details</title>
-        <meta name="description" content={`Details for property number: ${params.propertyId}.`} /> 
+        <title>Office space details</title>
+        <meta name="description" content={`Details for office space.`} /> 
       </Helmet>
       <PageSizedContainer style={{ flexDirection: 'column', marginTop:'40px', padding: '0 10px' }}>
         {
@@ -39,7 +39,6 @@ export default function PropertyDetailsHome() {
           <>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
             <HeaderTwo style={{color: 'black', textAlign:'left'}}><strong>Office space for {selectedOfficeSpace.officeSpaceType} in {selectedOfficeSpace.location}</strong></HeaderTwo>
-            <HeaderTwo style={{color: 'red', textAlign:'left', fontSize: '210%'}}><strong>RWF</strong> {selectedOfficeSpace.price}</HeaderTwo>
           </div>
           <PageWithSideBarContainer style={{ margin:'40px 0' }}>
             <div className='leftSide'>
@@ -58,7 +57,7 @@ export default function PropertyDetailsHome() {
               <div style={{ border: '1px solid #d1e0e0', display:'flex', flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start', width: '100%', borderRadius: '5px', padding: '20px', background: 'white' }}>
                 {/* Owner info  */}
                 <div style={{ display:'flex', flexDirection: 'column', marginBottom: '20px', gap: '5px', justifyContent:'flex-start', alignItems: 'flex-start', width: '100%', }}>
-                  <HeaderThree style={{ marginBottom: '10px' }}>Owner/Agent</HeaderThree>
+                  <HeaderThree style={{ marginBgottom: '10px' }}>Owner/Agent</HeaderThree>
                   <p style={{ fontSize: '90%', color: 'gray', marginBottom: '5px' }}>Name: <br/><span style={{ color: 'black', fontSize: '100%' }}>{selectedOfficeSpace.ownerName}</span></p>
                   <p style={{ fontSize: '90%', color: 'gray', marginBottom: '5px' }}>Phone: <br/><span style={{ color: 'black', fontSize: '100%' }}>{selectedOfficeSpace.ownerPhone}</span></p>
                 </div>

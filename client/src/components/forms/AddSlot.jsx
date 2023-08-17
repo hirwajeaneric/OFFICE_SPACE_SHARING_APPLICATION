@@ -16,12 +16,7 @@ export default function AddSlot() {
   const params = useParams();
   const dispatch = useDispatch();
   const [pictures, setPictures] = useState('');
-  const [formData, setFormData] = useState({
-    officeSpaceType: '',
-    location: '',
-    mapCoordinates: '',
-    description: ''
-  });
+  const [formData, setFormData] = useState({});
   
   const [progress, setProgress] = useState({ value: '', disabled: false});
   const [open, setOpen] = useState(false);
@@ -37,7 +32,7 @@ export default function AddSlot() {
   const resetFields = () => {
     setFormData({
       description: '',
-      dimension: '',
+      dimensions: '',
       price: '',
     });
     setPictures('');
@@ -64,7 +59,7 @@ export default function AddSlot() {
     data.spaceId = params.id; 
 
     if (pictures) {
-      data.picture = pictures; 
+      data.pictures = pictures; 
     }
 
     // VALIDATION
@@ -91,6 +86,8 @@ export default function AddSlot() {
     
     setProgress({ value: 'Processing ...', disabled: true});
 
+    console.log(data);
+
     axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/add` , data, config)
     .then(response => {
       if (response.status === 201) {
@@ -114,8 +111,8 @@ export default function AddSlot() {
     <TwoSidedFormContainer onSubmit={handleAddSlot} style={{ alignItems:'flex-start', width: '100%' }}>
       
       <LeftContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-        <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
-        <TextField id="dimension" style={{ width: '100%' }} size='small' label="Dimensions" variant="outlined" name='dimension' value={formData.dimension || ''} onChange={handleChange} />
+        <TextField id="description" style={{ width: '100%' }} size='small' label="Descriptions" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
+        <TextField id="dimensions" style={{ width: '100%' }} size='small' label="Dimensions" variant="outlined" name='dimensions' value={formData.dimensions || ''} onChange={handleChange} />
       </LeftContainer>
 
       <RightContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>

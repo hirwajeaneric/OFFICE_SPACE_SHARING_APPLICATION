@@ -72,16 +72,16 @@ const attachFile = async (req, res, next) => {
 
 
 const add = async (req, res) => {
+    console.log(req.body);
     const  slot = await SlotModel.create(req.body);
 
     // Get existing office space
     const existingOfficeSpace = await officeSpaceModel.findById(slot.spaceId);
-
+    
     //Update office space number of slots and number of available slots
     const updatedOfficeSpace = await officeSpaceModel.findByIdAndUpdate(
-        { 
-            id: existingOfficeSpace._id 
-        }, { 
+        { _id: existingOfficeSpace._id } 
+        , { 
             numberOfSlots: existingOfficeSpace.numberOfSlots+1,
             availableSlots: existingOfficeSpace.availableSlots+1 
         }
