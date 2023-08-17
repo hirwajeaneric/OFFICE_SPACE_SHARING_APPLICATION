@@ -71,6 +71,9 @@ export default function RentRequestForm() {
     e.preventDefault();
 
     formData.requestingUserId = user.id;
+    formData.officeSpaceId = params.id;
+    formData.slotId = params.slotId;
+    formData.
 
     setIsProcessing(true);
     axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/add`, formData)
@@ -135,7 +138,7 @@ export default function RentRequestForm() {
           labelId="gender" 
           id="gender" 
           name='gender' 
-          value={formData.gender || ''} 
+          value={formData.gender || ''}
           onChange={handleFormInputs} 
           label="Gender"
         >

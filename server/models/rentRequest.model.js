@@ -36,10 +36,6 @@ const rentRequestSchema = new mongoose.Schema({
         maxlength: 12,
         minlength: 10,
     },
-    age: { 
-        type: Number, 
-        required: false 
-    },
     activityType: { 
         type: String, 
         required: false 
@@ -55,7 +51,7 @@ const rentRequestSchema = new mongoose.Schema({
     sendDate: { 
         type: Date, 
         required: true,
-        default: Date.now() 
+        default: new Date().toUTCString() 
     },
     status: { 
         type: String, 

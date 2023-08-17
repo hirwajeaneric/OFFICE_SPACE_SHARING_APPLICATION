@@ -4,8 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FullWidthContainer, HeaderTwo, PageSizedContainer, PropertyDescriptionSection } from '../components/styled-components/generalComponents';
 import { PageWithSideBarContainer } from '../components/styled-components/generalComponents';
 import ImageSlider from '../components/sections/ImageCarousel';
-import PropertyMajorDetails from '../components/sections/PropertyMajorDetails';
-import LocationMap from '../components/sections/LocationMap';
 import RentRequestForm from '../components/forms/RentRequestForm';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +13,6 @@ export default function SlotDetailsHome() {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  
   const [user, setUser] = useState({});
   const [postedByMe, setPostedByMe] = useState(false);
 
@@ -47,24 +44,16 @@ export default function SlotDetailsHome() {
           <PageWithSideBarContainer style={{ margin:'40px 0' }}>
             <div className='leftSide'>
               <ImageSlider pictures={selectedSlot.pictures} />
-              <PropertyDescriptionSection>
-                <HeaderTwo>Description</HeaderTwo>
+              <PropertyDescriptionSection style={{ border: '1px solid #d1e0e0', borderRadius: '5px', padding: '20px', background: 'white' }}>
+                <HeaderTwo>Descriptions</HeaderTwo>
                 <p>
                   {selectedSlot.description}
                 </p>
+                <div>
+                  <p>Dimensions: <strong>{selectedSlot.dimensions} Square Meters</strong></p>
+                  <p>Current status: <strong>{selectedSlot.status}</strong></p>
+                </div>
               </PropertyDescriptionSection>
-              <PropertyMajorDetails descriptions={selectedSlot} />
-              <LocationMap coordinates={selectedSlot.mapCoordinates} />
-              
-              {/* Information about owner and tenant */}
-              <div style={{ border: '1px solid #d1e0e0', display:'flex', flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start', width: '100%', borderRadius: '5px', padding: '20px', background: 'white' }}>
-                {/* Owner info  */}
-                {/* <div style={{ display:'flex', flexDirection: 'column', marginBottom: '20px', gap: '5px', justifyContent:'flex-start', alignItems: 'flex-start', width: '100%', }}>
-                  <HeaderThree style={{ marginBottom: '10px' }}>Owner/Agent</HeaderThree>
-                  <p style={{ fontSize: '90%', color: 'gray', marginBottom: '5px' }}>Name: <br/><span style={{ color: 'black', fontSize: '100%' }}>{selectedSlot.ownerName}</span></p>
-                  <p style={{ fontSize: '90%', color: 'gray', marginBottom: '5px' }}>Phone: <br/><span style={{ color: 'black', fontSize: '100%' }}>{selectedSlot.ownerPhone}</span></p>
-                </div>  */}
-              </div>
             </div>
 
             {/* SIDE BAR WITH RENT AND JOIN FORM AND CALL TO ACTION MESSAGES ********************************************************** */}
@@ -76,7 +65,7 @@ export default function SlotDetailsHome() {
 
 
               {/* CALL TO ACTION MESSAGES  */}
-              {user !== null && selectedSlot.status === 'For Rent' && selectedSlot.ownerId !== user.id ?
+              {user !== null && selectedSlot.status === 'available' && selectedSlot.ownerId !== user.id ?
                 <>
                   <HeaderTwo>Do you want to Rent this Apartment?</HeaderTwo>
                   <p style={{ fontWeight: '400', margin: '20px 0', lineHeight: '23px' }}>Fill in the form bellow to reserve the permission to rent this Apartment.</p>
@@ -93,7 +82,7 @@ export default function SlotDetailsHome() {
 
               {/* CONDITIONS TO DISPLAY RENT FORM */}
               {
-                !localStorage.getItem('usrTkn') && selectedSlot.status === 'For Rent' ? 
+                !localStorage.getItem('usrTkn') && selectedSlot.status === 'available' ? 
                 <Button 
                   type='button' 
                   variant='contained' 
@@ -107,23 +96,8 @@ export default function SlotDetailsHome() {
               }
 
               {
-                user !== null && selectedSlot.status === 'For Rent' && selectedSlot.ownerId !== user.id ? 
+                user !== null && selectedSlot.status === 'available' && selectedSlot.ownerId !== user.id ? 
                 <RentRequestForm /> : 
-                <></>
-              }
-
-              {/* CONDITIONS FOR JOIN FORM  */}
-              
-              {
-                !localStorage.getItem('usrTkn') && selectedSlot.status === 'For Join' ? 
-                <Button 
-                  type='button' 
-                  variant='contained' 
-                  color='secondary' 
-                  size='small' 
-                  onClick={() => navigate('/signin')}>
-                    Sign in to Join Apartment
-                </Button> : 
                 <></>
               }
               
