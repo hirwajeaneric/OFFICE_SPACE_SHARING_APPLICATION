@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FullWidthContainer, PageSizedContainer, TwoSidedContainer } from '../styled-components/generalComponents'
 import { MdOutlineApartment } from 'react-icons/md';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { a, useNavigate } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { AccountCircle, Close, Menu as MenuIcon } from '@mui/icons-material';
 import { useState } from 'react';
@@ -40,21 +40,21 @@ export default function NavigationBar() {
     <FullWidthContainer style={{ background: 'white', boxShadow: '0 1.5px 5px 0 rgba(0, 0, 0, 0.19)', position: 'sticky', top: '0', zIndex:'1000' }}>
       <PageSizedContainer>
         <TwoSidedContainer style={{ position: 'relative' }}>
-          <Logo to={'/'} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', fontWeight: '700'}}>
+          <Logo href={'/'} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', fontWeight: '700'}}>
             <MdOutlineApartment /> OSSA
           </Logo>
           <DesktopNav>
-            <NavLink to={'/'}>Home</NavLink>
-            <NavLink to={'/aboutus'}>About Us</NavLink>
-            <NavLink to={'/contactus'}>Contact Us</NavLink>
-            <NavLink to={'/upload'}>Upload office space</NavLink>
+            <a href={'/'}>Home</a>
+            <a href={'/aboutus'}>About Us</a>
+            <a href={'/contactus'}>Contact Us</a>
+            <a href={'/upload'}>Upload office space</a>
             {localStorage.getItem('usrTkn') &&
-              <NavLink to={`/user/${userInfo.fullName.split(' ').join('')}/overview`}>My Account</NavLink>
+              <a href={`/user/${userInfo.fullName.split(' ').join('')}/overview`}>My Account</a>
             }
             {!localStorage.getItem('usrTkn') && 
               <>
-                <NavLink to={'/signin'}>Sign In</NavLink>
-                <NavLink to={'/signup'}>Sign Up</NavLink>
+                <a href={'/signin'}>Sign In</a>
+                <a href={'/signup'}>Sign Up</a>
               </>
             }
             {localStorage.getItem('usrTkn') && 
@@ -79,17 +79,17 @@ export default function NavigationBar() {
           <Modal open={open} onClose={handleCloseNav} aria-labelledby="modal-nav" aria-describedby="modal-modal-description">
             <Box sx={{position: 'absolute', left: '0px', bottom: '0px', height: '90vh', width: '70%', background: 'white', boxShadow: 24 }}>
               <MobileNav>
-                <NavLink to={'/'} onClick={handleCloseNav}>Home</NavLink>
-                <NavLink to={'/aboutus'} onClick={handleCloseNav}>About Us</NavLink>
-                <NavLink to={'/contactus'} onClick={handleCloseNav}>Contact Us</NavLink>
-                <NavLink to={'/upload'} onClick={handleCloseNav}>Upload office</NavLink>
+                <a href={'/'} onClick={handleCloseNav}>Home</a>
+                <a href={'/aboutus'} onClick={handleCloseNav}>About Us</a>
+                <a href={'/contactus'} onClick={handleCloseNav}>Contact Us</a>
+                <a href={'/upload'} onClick={handleCloseNav}>Upload office</a>
                 {localStorage.getItem('usrTkn') &&
-                  <NavLink to={`/user/${userInfo.fullName.split(' ').join('')}/overview`} onClick={handleCloseNav}>My Account</NavLink>
+                  <a href={`/user/${userInfo.fullName.split(' ').join('')}/overview`} onClick={handleCloseNav}>My Account</a>
                 }
                 {!localStorage.getItem('usrTkn') && 
                   <>
-                    <NavLink to={'/signin'} onClick={handleCloseNav}>Sign In</NavLink>
-                    <NavLink to={'/signup'} onClick={handleCloseNav}>Sign Up</NavLink>
+                    <a href={'/signin'} onClick={handleCloseNav}>Sign In</a>
+                    <a href={'/signup'} onClick={handleCloseNav}>Sign Up</a>
                   </>
                 }
                 {localStorage.getItem('usrTkn') && 

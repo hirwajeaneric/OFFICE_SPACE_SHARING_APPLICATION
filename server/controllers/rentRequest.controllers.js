@@ -84,7 +84,7 @@ const edit = async(req, res) => {
         throw new NotFoundError(`Request not found!`);
     }
 
-    const existingOfficeSpace = await officeSpaceModel.findById(slot.spaceId);
+    const existingOfficeSpace = await officeSpaceModel.findById(updatedRentRequest.officeSpaceId);
 
     var updatedOfficeSpace = {};
     var updatedSlot = {};
@@ -100,7 +100,7 @@ const edit = async(req, res) => {
     // Send email regarding the rent request status
     await sendEmail(
         updatedRentRequest.email, 
-        `Rent request for office space ${updatedRentRequest.status}`,
+        `Rent request for slot ${updatedRentRequest.status}`,
         `Dear ${updatedRentRequest.fullName}, \n\nYour request to rent a slot in the office space was ${updatedRentRequest.status} \n\nBest regards,\nOSSA`,
     );
 

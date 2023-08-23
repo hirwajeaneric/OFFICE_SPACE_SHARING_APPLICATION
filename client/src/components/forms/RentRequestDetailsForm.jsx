@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { Link, useParams } from 'react-router-dom';
-import { CustomFormControlOne, HeaderThree, LeftContainer, RightContainer, TwoSidedContainer } from '../styled-components/generalComponents';
+import { HeaderThree, LeftContainer, RightContainer, TwoSidedContainer } from '../styled-components/generalComponents';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRentRequestDetails, getRentRequests } from '../../redux/features/rentRequestsSlice';
 import axios from 'axios';
@@ -58,11 +58,11 @@ export default function RentRequestDetailsForm() {
           setIsProcessing2(false);
 
           dispatch(getRentRequests(JSON.parse(localStorage.getItem('usrInfo')).id));
-
           setResponseMessage({ message: 'Rent Request Updated', severity:'success'});
           setOpen(true);
         }
         dispatch(getRentRequests(response.data.rentRequest.requestingUserId));
+        window.location.reload();
       },3000);
     })
     .catch(error => {
@@ -92,7 +92,8 @@ export default function RentRequestDetailsForm() {
         <p><strong>Phone number:</strong> {selectedRentRequest.phone}</p> 
         <p><strong>Message:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.comment}</span></p>
         <p><strong>Line of activity:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.activityDescription}</span></p>
-        <p><Link to={`/space/${selectedRentRequest.officeSpaceId}/slot/${selectedRentRequest.slotId}`} style={{ color: 'blue', textDecoration: 'none' }}>View House</Link></p>
+        <p><strong>Status:</strong> <span>{selectedRentRequest.status}</span></p>
+        <p><Link to={`/space/${selectedRentRequest.officeSpaceId}/slot/${selectedRentRequest.slotId}`} style={{ color: 'blue', textDecoration: 'none' }}>View Slot</Link></p>
       </LeftContainer>
 
       <RightContainer style={{ flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start' }}>
@@ -100,7 +101,6 @@ export default function RentRequestDetailsForm() {
         selectedRentRequest.requestingUserId === JSON.parse(localStorage.getItem('usrInfo')).id 
         ?
         <div style={{ display:'flex', flexDirection: 'column', gap: '20px', justifyContent:'flex-start', alignItems:'flex-start', width: '100%' }}>
-          <p><strong>Allowed to repost:</strong> <span>{selectedRentRequest.allowedToShare}</span></p> 
           <p><strong>Status:</strong> <span>{selectedRentRequest.status}</span></p>
           <p><strong>Response:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.response}</span></p>
         </div> 
@@ -110,7 +110,6 @@ export default function RentRequestDetailsForm() {
             <>
               <HeaderThree style={{ borderBottom: '1px solid gray', width: '100%', marginBottom: '10px', paddingBottom: '10px'}}>Your response</HeaderThree>
               <div style={{ display:'flex', flexDirection: 'column', gap: '20px', justifyContent:'flex-start', alignItems:'flex-start', width: '100%' }}>
-                <p><strong>Allowed to repost:</strong> <span style={{ color: 'gray' }}>{selectedRentRequest.allowedToShare}</span></p> 
                 <p><strong>Status:</strong> <span style={{ color: 'gray' }}>{selectedRentRequest.status}</span></p>
                 <p><strong>Response:</strong> <span style={{ color: 'gray', lineHeight:'25px' }}>{selectedRentRequest.response}</span></p>
               </div>
