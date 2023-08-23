@@ -26,6 +26,10 @@ const slotSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    ownerId: {
+        type: String,
+        required: false,
+    },
     occupantId: {
         type: String,
         required: false,

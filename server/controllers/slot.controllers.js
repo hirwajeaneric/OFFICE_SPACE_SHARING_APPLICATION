@@ -103,7 +103,8 @@ const getAll = async(req, res) => {
 
 const findById = async(req, res) => {
     const  slotId = req.query.id;
-    const  slot = await SlotModel.findById( slotId);
+    console.log(slotId);
+    const  slot = await SlotModel.findById(slotId);
     if(!slot){
         throw new BadRequestError(`Slot not found!`)
     }
