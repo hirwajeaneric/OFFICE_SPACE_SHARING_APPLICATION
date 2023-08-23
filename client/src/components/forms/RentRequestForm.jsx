@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormContainer } from '../styled-components/formsStyledComponent'
 import { Button, TextField } from '@mui/material'
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getRentRequests } from '../../redux/features/rentRequestsSlice';
 import axios from 'axios';
 import ResponseComponent from '../sections/ResponseComponent';
@@ -25,17 +25,14 @@ export default function RentRequestForm() {
   // OTHER STATES
   const [user, setUser] = useState({});  
   const [formData, setFormData] = useState({
-    propertyId: '',
+    slotId: '',
+    officeSpaceId: '',
+    officeSpaceOwnerId: '',
     requestingUserId: '',
     fullName: '',
     email: '',
     phone: '',
-    gender: '',
-    age: 0,
     comment: '',
-    nationalId: '',
-    passportNumber: '',
-    mightNeedToShare: '',
   });
 
   const resetFields = () => {
@@ -49,6 +46,8 @@ export default function RentRequestForm() {
     });
   }
 
+  const { selectedSlot } = useSelector(state => state.slot)
+
   useEffect(()=> {
     setUser(JSON.parse(localStorage.getItem('usrInfo')));
     setFormData({
@@ -56,9 +55,7 @@ export default function RentRequestForm() {
       fullName: user.fullName,
       email: user.email,
       phone: user.phone,
-      nationalId: user.nationalId,
-      passportNumber: user.passportNumber,
-      propertyId: params.id,
+      slotId: params.slotId,
     })
   },[formData, user, params])
 
@@ -72,6 +69,7 @@ export default function RentRequestForm() {
     formData.requestingUserId = user.id;
     formData.officeSpaceId = params.id;
     formData.slotId = params.slotId;
+    formData.ownerId = selectedSlot.ownerId;
 
     setIsProcessing(true);
     axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/add`, formData)
@@ -130,7 +128,7 @@ export default function RentRequestForm() {
         name='phone' 
         onChange={handleFormInputs}
       />
-      <TextField 
+      {/* <TextField 
         variant='outlined' 
         style={{ width: '100%' }} 
         label='Type of activity' 
@@ -139,6 +137,16 @@ export default function RentRequestForm() {
         value={formData.activityType  || ''} 
         name='activityType' 
         onChange={handleFormInputs}
+      /> */}
+      <TextField 
+        id="outlined-multiline-static" 
+        style={{ width: '100%' }} 
+        label="Activity description" 
+        multiline 
+        rows={4} 
+        name='activityDescription' 
+        value={formData.activityDescription || ''} 
+        onChange={handleFormInputs} 
       />
       <TextField 
         id="outlined-multiline-static" 

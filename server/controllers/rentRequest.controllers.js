@@ -29,7 +29,7 @@ const add = async (req, res) => {
     let text = `Hello ${owner.fullName}, \n\nYou have a new rent request from ${rentRequest.fullName}. \n\nClick on the link bellow and view more details: \n ${process.env.CLIENT_ADDRESS}myaccount/rent-requests \n\nBest regards, \nOSSA`
 
     // Sending the email to the house owner
-    await SendEmail( recipient, subject, emailBody, template );
+    await SendEmail( recipient, subject, text );
 
     res.status(StatusCodes.CREATED).json({ message: 'Rent request sent', rentRequest });
 };
