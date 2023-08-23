@@ -1,8 +1,7 @@
 import React from 'react';
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { Preview } from '@mui/icons-material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Tooltip } from '@mui/material';
+import { Link, useParams } from 'react-router-dom';
 
 const columns = [
   {   
@@ -83,17 +82,12 @@ export default function SlotsTable({data}) {
 
 // Table actions
 const TableActions = ({parameters}) => {
-  const navigate = useNavigate();
   const params = useParams();
 
   return (
     <Box>
       <Tooltip title='View / Edit'>
-        <IconButton onClick={() => {  
-          navigate(`/user/${params.fullName}/slot/${parameters.row._id}`);
-          }}>
-          <Preview />
-        </IconButton>
+        <Link to={`/user/${params.fullName}/slot/${parameters.row._id}`}>More</Link>
       </Tooltip>
     </Box>
   )

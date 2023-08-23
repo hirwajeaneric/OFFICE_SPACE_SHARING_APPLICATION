@@ -12,6 +12,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+const inputFieldStyles = {
+  width: '100%', 
+  padding: '8px 12px', 
+  borderRadius: '5px', 
+  fontSize: '100%', 
+  border: '1px solid gray', 
+  marginBottom: '10px'
+}
+
 export default function AddSlot() {
   const params = useParams();
   const dispatch = useDispatch();
@@ -57,6 +66,7 @@ export default function AddSlot() {
 
     var data = formData;
     data.spaceId = params.id; 
+    data.ownerId = JSON.parse(localStorage.getItem('usrInfo')).id;
 
     if (pictures) {
       data.pictures = pictures; 
@@ -108,27 +118,62 @@ export default function AddSlot() {
   };
 
   return (
-    <TwoSidedFormContainer onSubmit={handleAddSlot} style={{ alignItems:'flex-start', width: '100%' }}>
-      
-      <LeftContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-        <TextField id="description" style={{ width: '100%' }} size='small' label="Descriptions" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
-        <TextField id="dimensions" style={{ width: '100%' }} size='small' label="Dimensions" variant="outlined" name='dimensions' value={formData.dimensions || ''} onChange={handleChange} />
-      </LeftContainer>
-
-      <RightContainer style={{ flexDirection: 'column', gap: '20px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-        <TextField id="price" style={{ width: '100%' }} size='small' label="Slot price" variant="outlined" name='price' value={formData.price || ''} onChange={handleChange} />
-        <TextField type='file' width={'100%'} id="file" style={{ width: '100%' }} size='small' variant="outlined" onChange={handleFileInput} name='pictures' />
-        <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'space-between', alignItems:'center', width: '100%' }}>
-          {!progress.disabled && <Button type='submit' variant='contained' size='small' color='primary'>SUBMIT</Button>}
-          {progress.disabled && <Button type='submit' variant='contained' size='medium' color='primary' disabled>{progress.value}</Button>}
-          <Button type='cancel' variant='contained' color='secondary' size='small' onClick={resetFields}>CANCEL</Button>
+    <>
+      <form onSubmit={handleAddSlot} style={{ display: 'flex', flexDirection: 'row', alignItems:'flex-start', width: '100%' }}>
+        <div className='left'>
+          <textarea 
+            id="description" 
+            style={inputFieldStyles} 
+            placeholder="Descriptions" 
+            rows={4} 
+            name='description' 
+            value={formData.description || ''} 
+            onChange={handleChange} 
+          >
+          </textarea>
+          <input 
+            type='text' 
+            style={inputFieldStyles} 
+            placeholder='Dimensions' 
+            id="dimensions" 
+            name='dimensions' 
+            value={formData.dimensions || ''} 
+            onChange={handleChange} 
+          />
         </div>
-      </RightContainer>
-      
+
+        <div className='right'>
+          <input 
+            type='text' 
+            style={inputFieldStyles} 
+            placeholder='Price' 
+            id="price" 
+            name='price' 
+            value={formData.price || ''} 
+            onChange={handleChange} 
+          />
+          <input 
+            type='file' 
+            style={inputFieldStyles} 
+            onChange={handleFileInput} 
+            name='pictures' 
+          />
+          <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'space-between', alignItems:'center', width: '100%' }}>
+            {!progress.disabled && 
+              <Button type='submit' variant='contained' size='small' color='primary'>SUBMIT</Button>
+            }
+            {progress.disabled && 
+              <Button type='submit' variant='contained' size='medium' color='primary' disabled>{progress.value}</Button>
+            }
+            <Button type='cancel' variant='contained' color='secondary' size='small' onClick={resetFields}>CANCEL</Button>
+          </div>
+        </div>
+      </form>
+
       {/* Response message  */}
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={responseMessage.severity} sx={{ width: '100%' }}>{responseMessage.message}</Alert>
       </Snackbar>
-    </TwoSidedFormContainer>
+    </>
   )
 }

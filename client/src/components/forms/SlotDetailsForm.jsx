@@ -6,21 +6,23 @@ import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TypesOfOfficeSpaces } from '../../utils/TypesOfOfficeSpaces';
+import ImageSlider from '../../components/sections/ImageCarousel';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function PropertyDetailsForm(props) {
+export default function SlotDetailsForm(props) {
   const { formData, setFormData } = props;
   const params = useParams();
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem('usrInfo')));
+    console.log(formData);
   },[params.officeSpaceId]);
 
-  const [picture, setPicture] = useState('');
+  const [pictures, setPictures] = useState('');
   
   const [progress, setProgress] = useState({ value: '', disabled: false});
   const [open, setOpen] = useState(false);
@@ -33,12 +35,12 @@ export default function PropertyDetailsForm(props) {
     setOpen(false);
   };
 
-  const handleChangeOfficeSpaceType = (event) => {
+  const handleChangeSlotStatus = (event) => {
     setFormData({...formData, officeSpaceType: event.target.value});
   };
 
   const handleFileInput = (e) => {
-    setPicture(e.target.files[0]);
+    setPictures(e.target.files[0]);
   }
 
   const handleChange = ({currentTarget: input}) => { 
@@ -53,18 +55,18 @@ export default function PropertyDetailsForm(props) {
     delete data['_id'];
     delete data['__v'];
 
-    if (!picture) {
+    if (!pictures) {
       config = {}
     } else {
       config = {
         headers: { "Content-Type":"multipart/form-data" }
       }
-      data.picture = picture;
+      data.pictures = pictures;
     }
 
     setProgress({ value: 'Processing ...', disabled: true});
 
-    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/officeSpace/update?id=${params.id}` , data, config)
+    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/update?id=${params.id}` , data, config)
     .then(response => {
       if (response.status === 200) {
         setResponseMessage({ message: response.data.message, severity: 'success' });
@@ -85,9 +87,7 @@ export default function PropertyDetailsForm(props) {
   return (
     <TopLeftFlexAlignedContainer onSubmit={handleUpdateProperty} style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', paddingBottom: '20px', border: '1px solid #d1e0e0', borderRadius: '5px', background: 'white' }}>
       <OfficeSpaceDetailsContainer>
-        <div className="image-container" style={{ background: "url('"+process.env.REACT_APP_SERVERURL+"/api/v1/ossa/spaces/"+formData.picture+"')", backgroundOrigin: 'initial' }}>
-          <h3>{`Office space in ${formData.location}`}</h3>
-        </div>
+        <ImageSlider pictures={formData.pictures} />
         
         {formData.ownerId === userData.id
         ?
@@ -95,27 +95,27 @@ export default function PropertyDetailsForm(props) {
             <div className="left">
               <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
               <CustomFormControlOne style={{ width: '100%' }} size='small'>
-                <InputLabel id="officeSpaceType">Apartment Type</InputLabel>
-                <Select labelId="officeSpaceType" id="officeSpaceType" name='officeSpaceType' value={formData.officeSpaceType} onChange={handleChangeOfficeSpaceType} label="Apartment Type">
+                <InputLabel id="status">Slot status</InputLabel>
+                <Select labelId="Status" id="status" name='status' value={formData.status} onChange={handleChangeSlotStatus} label="Slot status">
                   <MenuItem value="">
                       <em>None</em>
                   </MenuItem>
-                  {TypesOfOfficeSpaces.map((element, index) => {
-                    return (
-                      <MenuItem key={index} value={element}>{element}</MenuItem>
-                    )
-                  })}
+                  <MenuItem value='available'>Available</MenuItem>
+                  <MenuItem value='booked'>Booked</MenuItem>
+                  <MenuItem value='unavailable'>Unavailable</MenuItem>
                 </Select>
               </CustomFormControlOne>
-            <TextField id="location" style={{ width: '100%' }} size='small' label="Location" variant="outlined" name='location' value={formData.location || ''} onChange={handleChange}/>
+            <TextField id="dimensions" style={{ width: '100%' }} size='small' label="Dimensions" variant="outlined" name='dimensions' value={formData.dimensions || ''} onChange={handleChange}/>
             </div>
             <div className="right">
-              <TextField id="mapCoordinates" style={{ width: '100%' }} size='small' label="Map Coordinates" variant="outlined" name='mapCoordinates' value={formData.mapCoordinates || ''} onChange={handleChange} />
+              <TextField id="price" style={{ width: '100%' }} size='small' label="Price" variant="outlined" name='price' value={formData.price || ''} onChange={handleChange} />
               <TextField type='file' width={'100%'} id="file" style={{ width: '100%' }} size='small' variant="outlined" onChange={handleFileInput} name='pictures' />
+              
               <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'flex-end', alignItems:'flex-end', width: '100%' }}>
                 {!progress.disabled && <Button type='submit' variant='contained' size='small' color='primary'>UPDATE</Button>}
                 {progress.disabled && <Button type='submit' variant='contained' size='medium' color='primary' disabled>{progress.value}</Button>}
               </div>
+
             </div>
           </form>
           :

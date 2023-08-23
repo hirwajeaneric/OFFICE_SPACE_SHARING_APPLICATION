@@ -63,7 +63,7 @@ export default function SlotDetailsHome() {
             <div className='rightSide' style={{ border: '1px solid #d1e0e0', borderRadius: '5px', padding: '20px', background: 'white' }}>
             
               {/* This message appears when the selected house is owned by the user who has logen in */}
-              {(user !== null && selectedSlot.ownerId === user.id) && <p>Your House</p>}
+              {(user !== null && selectedSlot.ownerId === user.id) && <p>Uploaded by you</p>}
 
 
               {/* CALL TO ACTION MESSAGES  */}

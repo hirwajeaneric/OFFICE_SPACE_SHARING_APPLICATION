@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom';
 import { InnerContainer } from '../components/styled-components/authenticationPages';
 import { CustomLeftContainer, SlotsContainer, TwoSidedContainer } from '../components/styled-components/generalComponents';
-import PropertyDetailsForm from '../components/forms/PropertyDetailsForm';
+import PropertyDetailsForm from '../components/forms/SlotDetailsForm';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSlotsForOfficeSpace } from '../redux/features/slotSlice';
@@ -48,10 +48,9 @@ export default function ProperyDetailsUserAccount() {
             <PropertyDetailsForm formData={formData} setFormData={setFormData}/>
             
             <SlotsContainer>
-              <div className='header-space'>
-                <h3>Slots</h3>
-              </div>
+              <h3>Add new slot</h3>
               <AddSlot />
+              <h3>{slotsForOfficeSpace.length} Slots</h3>
               <SlotsTable data={slotsForOfficeSpace} />
             </SlotsContainer>
           

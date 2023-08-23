@@ -106,7 +106,6 @@ export const SlotsContainer = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    marginTop: 20px;
     border: 1px solid #d1e0e0; 
     border-radius: 5px;
     background: white;
@@ -118,7 +117,8 @@ export const SlotsContainer = styled.div`
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        width: 100%;    
+        width: 100%;
+        padding: 20px;    
     }
 
     @media (max-width: 1080px) {
@@ -157,9 +157,17 @@ export const TwoSidedContainer = styled.div`
 export const TwoSidedFormContainer = styled.form`
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
     align-items: center;
     width: 100%;
     flex-wrap: nowrap;
+
+    div.left, div.right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 47%;
+    }
 
     @media (max-width: 1080px) {
             
