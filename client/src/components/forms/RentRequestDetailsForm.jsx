@@ -32,7 +32,7 @@ export default function RentRequestDetailsForm() {
   });
 
   useEffect(() => {
-    dispatch(getRentRequestDetails(params.rentRequestId));
+    dispatch(getRentRequestDetails({ rentRequestId: params.rentRequestId}));
   },[dispatch, params])
 
   const handleFormInputs = event => {
@@ -90,10 +90,9 @@ export default function RentRequestDetailsForm() {
         <p><strong>Name:</strong> {selectedRentRequest.fullName}</p> 
         <p><strong>Email address:</strong> {selectedRentRequest.email}</p>
         <p><strong>Phone number:</strong> {selectedRentRequest.phone}</p> 
-        <p><strong>Gender:</strong> {selectedRentRequest.gender}</p>
-        <p><strong>Age:</strong> {selectedRentRequest.age}</p>
         <p><strong>Message:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.comment}</span></p>
-        <p><Link to={`/space/${selectedRentRequest.propertyId}`} style={{ color: 'blue', textDecoration: 'none' }}>View House</Link></p>
+        <p><strong>Line of activity:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.activityDescription}</span></p>
+        <p><Link to={`/space/${selectedRentRequest.officeSpaceId}/slot/${selectedRentRequest.slotId}`} style={{ color: 'blue', textDecoration: 'none' }}>View House</Link></p>
       </LeftContainer>
 
       <RightContainer style={{ flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start' }}>
@@ -118,17 +117,6 @@ export default function RentRequestDetailsForm() {
               <HeaderThree style={{ borderBottom: '1px solid gray', width: '100%', margin: '10px 0 10px', paddingBottom: '10px'}}>Update response</HeaderThree>
             </>
           }
-
-          <CustomFormControlOne sx={{ width: '100%' }} size='small'>
-            <InputLabel id="allowedToShare">Allow user to re-post the property</InputLabel>
-            <Select labelId="allowedToShare" id="allowedToShare" name='allowedToShare' value={formData.allowedToShare || ''} onChange={handleFormInputs} label="Allow user to re-post the property">
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={'Yes' || ''}>Yes</MenuItem>
-              <MenuItem value={'No' || ''}>No</MenuItem>
-            </Select>
-          </CustomFormControlOne>
 
           <TextField id="outlined-multiline-static" style={{ width: '100%' }} label="Response" multiline rows={4} name='response' value={formData.response || ''} onChange={handleFormInputs} />
 
