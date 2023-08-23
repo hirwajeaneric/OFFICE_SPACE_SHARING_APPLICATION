@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom';
 import { InnerContainer } from '../components/styled-components/authenticationPages';
 import { CustomLeftContainer, HeaderTwo, TwoSidedContainer } from '../components/styled-components/generalComponents';
-import PropertyDetailsForm from '../components/forms/SlotDetailsForm';
 import axios from 'axios';
 import SlotDetailsForm from '../components/forms/SlotDetailsForm';
 

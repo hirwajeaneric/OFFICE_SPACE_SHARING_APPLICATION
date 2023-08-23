@@ -10,7 +10,7 @@ import RentRequestForm from '../components/forms/RentRequestForm';
 import { Button, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOfficeSpaceDetails } from '../redux/features/officeSpaceSlice';
-import PropertyDetailsForm from '../components/forms/SlotDetailsForm';
+import PropertyDetailsForm from '../components/forms/PropertyDetailsForm';
 import AddSlot from '../components/forms/AddSlot';
 import SlotsTable from '../components/tables/SlotsTable';
 import axios from 'axios';

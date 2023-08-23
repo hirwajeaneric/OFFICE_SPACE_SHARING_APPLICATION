@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom';
 import { InnerContainer } from '../components/styled-components/authenticationPages';
 import { CustomLeftContainer, SlotsContainer, TwoSidedContainer } from '../components/styled-components/generalComponents';
-import PropertyDetailsForm from '../components/forms/SlotDetailsForm';
+import PropertyDetailsForm from '../components/forms/PropertyDetailsForm';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSlotsForOfficeSpace } from '../redux/features/slotSlice';
