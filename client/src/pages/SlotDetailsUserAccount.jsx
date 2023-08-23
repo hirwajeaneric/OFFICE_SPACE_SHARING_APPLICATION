@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { InnerContainer } from '../components/styled-components/authenticationPages';
 import { CustomLeftContainer, HeaderTwo, TwoSidedContainer } from '../components/styled-components/generalComponents';
 import axios from 'axios';
@@ -40,12 +40,18 @@ export default function SlotDetailsUserAccount() {
         {isLoading && <p>Loading...</p>}
         {!isLoading && 
         <TwoSidedContainer style={{ alignItems: 'flex-start'}}>
-          <CustomLeftContainer style={{ justifyContent:'flex-start', flexDirection: 'column', gap: '20px', marginBottom: '40px', width: '100%' }}>
-            <HeaderTwo style={{ margin: '0', borderBottom: '1px solid rgb(120,116,116, 0.5)', paddingBottom: '10px', width: '100%' }}>Slot Details</HeaderTwo>
+          <CustomLeftContainer style={{ justifyContent:'flex-start', flexDirection: 'column', gap: '20px', width: '100%' }}>
+            
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',width: '100%' }}>
+              <HeaderTwo>Slot Details</HeaderTwo>
+              <Link style={{ textDecoration: 'none', color: 'green', }} to={`../space/${formData.spaceId}`}>Go Back</Link>
+            </div>
+
             <SlotDetailsForm 
               formData={formData} 
               setFormData={setFormData} 
             />
+
           </CustomLeftContainer>
         </TwoSidedContainer>
         }

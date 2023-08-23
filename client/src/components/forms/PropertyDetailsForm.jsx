@@ -95,8 +95,8 @@ export default function PropertyDetailsForm(props) {
             <div className="left">
               <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
               <CustomFormControlOne style={{ width: '100%' }} size='small'>
-                <InputLabel id="status">Slot st</InputLabel>
-                <Select labelId="Status" id="status" name='status' value={formData.status} onChange={handleChangeSlotStatus} label="Slot status">
+                <InputLabel id="status">Type of space</InputLabel>
+                <Select labelId="Status" id="status" name='status' value={formData.status} onChange={handleChangeSlotStatus} label="Type of space">
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>

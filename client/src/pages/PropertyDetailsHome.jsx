@@ -49,7 +49,7 @@ export default function PropertyDetailsHome() {
         <meta name="description" content={`Details for office space.`} /> 
       </Helmet>
 
-      <PageSizedContainer style={{ flexDirection: 'column', marginTop:'40px', padding: '0 10px', gap: '20px' }}>
+      <PageSizedContainer style={{ flexDirection: 'column', margin:'40px 0 80px', padding: '0 10px', gap: '20px' }}>
         {
           isLoading ? 
           <p style={{ margin:'40px 0' }}>Loading...</p>:

@@ -5,7 +5,6 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { TypesOfOfficeSpaces } from '../../utils/TypesOfOfficeSpaces';
 import ImageSlider from '../../components/sections/ImageCarousel';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -19,8 +18,7 @@ export default function SlotDetailsForm(props) {
 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem('usrInfo')));
-    console.log(formData);
-  },[params.officeSpaceId]);
+  },[]);
 
   const [pictures, setPictures] = useState('');
   
@@ -47,7 +45,7 @@ export default function SlotDetailsForm(props) {
     setFormData({...formData, [input.name]: input.value}) 
   };
 
-  const handleUpdateProperty = (e) => {
+  const updateSlot = (e) => {
     e.preventDefault();
 
     var config = {};
@@ -64,14 +62,15 @@ export default function SlotDetailsForm(props) {
       data.pictures = pictures;
     }
 
+    console.log(config);
+    console.log(data);
+    console.log(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/update?id=${params.slotId}`);
+
     setProgress({ value: 'Processing ...', disabled: true});
 
-    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/update?id=${params.id}` , data, config)
+    axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/update?id=${params.slotId}`, data, config)
     .then(response => {
       if (response.status === 200) {
-        setResponseMessage({ message: response.data.message, severity: 'success' });
-        setOpen(true);
-        setProgress({ value: '', disabled: false });
         window.location.reload();
       }
     })
@@ -85,13 +84,14 @@ export default function SlotDetailsForm(props) {
   };
 
   return (
-    <TopLeftFlexAlignedContainer onSubmit={handleUpdateProperty} style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', paddingBottom: '20px', border: '1px solid #d1e0e0', borderRadius: '5px', background: 'white' }}>
+    <TopLeftFlexAlignedContainer style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', paddingBottom: '20px', border: '1px solid #d1e0e0', borderRadius: '5px', background: 'white' }}>
       <OfficeSpaceDetailsContainer>
+
         <ImageSlider pictures={formData.pictures} />
         
         {formData.ownerId === userData.id
         ?
-          <form className="space-details">
+          <form className="space-details" onSubmit={updateSlot}>
             <div className="left">
               <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
               <CustomFormControlOne style={{ width: '100%' }} size='small'>
@@ -122,15 +122,11 @@ export default function SlotDetailsForm(props) {
           <div className="space-details">
             <div className="left">
               <p>Description: <span>{formData.description}</span></p>
-              <p>Space type: <span>{formData.officeSpaceType}</span></p>
-              <p>Number of slots: <span>{formData.numberOfSlots}</span></p>
-              <p>Available slots: <span>{formData.availableSlots}</span></p>
+              <p>Status: <span>{formData.status}</span></p>
             </div>
             <div className="right">
-              <p>Description: <span>{formData.location}</span></p>
-              <p>Description: <span>{formData.mapCoordinates}</span></p>
-              <p>Description: <span>{formData.lastUpdated}</span></p>
-              <p>Description: <span>{formData.ownerName}</span></p>
+              <p>Dimensions: <span>{formData.dimensions}</span></p>
+              <p>Price: <span>{formData.price}</span></p>
             </div>
           </div>
         }

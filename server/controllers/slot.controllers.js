@@ -10,8 +10,6 @@ const multerStorage = multer.diskStorage({
     filename: (req, file, callback) => { callback(null, `space-${file.originalname}`) }
 })
 
-
-
 // Filter files with multer
 const multerFilter = (req, file, callback) => {
     if (file.mimetype.startsWith("image")) {
@@ -21,58 +19,46 @@ const multerFilter = (req, file, callback) => {
     }
 };
 
-
-
 const upload = multer({ 
     storage: multerStorage,
     fileFilter: multerFilter 
 });
 
 
-
 // Middleware for attaching files to the request body before saving.
 const attachFile = async (req, res, next) => {
     var pics = [];
-    const {query, body, files} = req;
+    const { query, body, files } = req;
 
     // Check if there is an slot already
     if (query.id) {
         const  existingSlot = await SlotModel.findById(query.id);
         
         if ( existingSlot &&  existingSlot.pictures.length !== 0) {
-            pics =  existingSlot.pictures;
-            if (files.length !== 0) {
+            if (files) {
                 pics =  existingSlot.pictures;
                 files.forEach(file => {
                     pics.push(file.filename); 
                 });
             }
         } else if ( existingSlot &&  existingSlot.pictures.length === 0) {
-            if (files.length !== 0) {
-                pics =  existingSlot.pictures;
-                files.forEach(file => {
-                    pics.push(file.filename); 
-                });
+            if (files) {
+                pics =  files[0].filename;
             }
         } else if (!existingSlot) {
             throw new BadRequestError(`Not found!`);
         }
-    } else {
-        if (files.length !== 0) {
-            files.forEach(file => {
-                pics.push(file.filename); 
-            });       
-        }
-    }
+    } 
 
     req.body.pictures = pics;
+    
+    console.log('Body');
+    console.log(req.body);
     next();
 }
 
 
-
 const add = async (req, res) => {
-    console.log(req.body);
     const  slot = await SlotModel.create(req.body);
 
     // Get existing office space
@@ -103,7 +89,6 @@ const getAll = async(req, res) => {
 
 const findById = async(req, res) => {
     const  slotId = req.query.id;
-    console.log(slotId);
     const  slot = await SlotModel.findById(slotId);
     if(!slot){
         throw new BadRequestError(`Slot not found!`)
@@ -140,11 +125,12 @@ const findByStatus = async(req, res) => {
 const edit = async(req, res) => {
     const  slot = req.body;
     const  slotId = req.query.id;
-    
-    const previousSlot = await SlotModel.findById(slotId);
-    const updated = await SlotModel.findByIdAndUpdate({ _id:  slotId }, slot);
-    const updatedSlot = await SlotModel.findById(updated._id);
 
+    const previousSlot = await SlotModel.findById(slotId);
+    
+    const updated = await SlotModel.findByIdAndUpdate({ _id:  slotId }, slot);
+
+    const updatedSlot = await SlotModel.findById(updated._id);
     const existingOfficeSpace = await officeSpaceModel.findById(updatedSlot.spaceId);
 
     // Change the number of slot according to the update
@@ -158,7 +144,7 @@ const edit = async(req, res) => {
     //Update office space number of slots and number of available slots
     const updatedOfficeSpace = await officeSpaceModel.findByIdAndUpdate(
         { 
-            id: existingOfficeSpace._id 
+            _id: existingOfficeSpace._id 
         }, { 
             availableSlots: slots 
         }
