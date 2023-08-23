@@ -86,8 +86,6 @@ export default function PropertyDetailsHome() {
                 <p>No available spaces</p>
               }
             </TopLeftFlexAlignedContainer>
-
-            <LocationMap coordinates={formData.mapCoordinates}/>
             
           </>
         }

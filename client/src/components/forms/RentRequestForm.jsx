@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormContainer } from '../styled-components/formsStyledComponent'
-import { Button, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { useParams } from 'react-router-dom';
-import { CustomFormControlOne } from '../styled-components/generalComponents';
 import { useDispatch } from 'react-redux';
 import { getRentRequests } from '../../redux/features/rentRequestsSlice';
 import axios from 'axios';
@@ -73,7 +72,6 @@ export default function RentRequestForm() {
     formData.requestingUserId = user.id;
     formData.officeSpaceId = params.id;
     formData.slotId = params.slotId;
-    formData.
 
     setIsProcessing(true);
     axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/add`, formData)
@@ -132,53 +130,16 @@ export default function RentRequestForm() {
         name='phone' 
         onChange={handleFormInputs}
       />
-      <CustomFormControlOne sx={{ width: '100%' }} size='small'>
-        <InputLabel id="gender">Gender</InputLabel>
-        <Select 
-          labelId="gender" 
-          id="gender" 
-          name='gender' 
-          value={formData.gender || ''}
-          onChange={handleFormInputs} 
-          label="Gender"
-        >
-          <MenuItem value="">
-              <em>None</em>
-          </MenuItem>
-          <MenuItem value={'male' || ''}>Male</MenuItem>
-          <MenuItem value={'female' || ''}>Female</MenuItem>
-          <MenuItem value={'prefer not to say' || ''}>Prefer not to say</MenuItem>
-        </Select>
-      </CustomFormControlOne>
       <TextField 
-        type='number' 
         variant='outlined' 
         style={{ width: '100%' }} 
-        label='age' 
-        id='age' 
+        label='Type of activity' 
+        id='activityType' 
         size='small' 
-        value={formData.age || ''} 
-        name='age' 
+        value={formData.activityType  || ''} 
+        name='activityType' 
         onChange={handleFormInputs}
       />
-      <CustomFormControlOne sx={{ width: '100%' }} size='small'>
-        <InputLabel id="gender">Will you need to share the property?</InputLabel>
-        <Select 
-          labelId="mightNeedToShare" 
-          id="mightNeedToShare" 
-          name='mightNeedToShare' 
-          value={formData.mightNeedToShare || ''} 
-          onChange={handleFormInputs} 
-          label="Will you need to share the property?"
-        >
-          <MenuItem value="">
-              <em>None</em>
-          </MenuItem>
-          <MenuItem value={'Yes' || ''}>Yes</MenuItem>
-          <MenuItem value={'No' || ''}>No</MenuItem>
-          <MenuItem value={"Don't know yet" || ''}>I don't know yet</MenuItem>
-        </Select>
-      </CustomFormControlOne>
       <TextField 
         id="outlined-multiline-static" 
         style={{ width: '100%' }} 
@@ -190,15 +151,15 @@ export default function RentRequestForm() {
         onChange={handleFormInputs} 
       />
       
-        <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'space-between', alignItems:'center', width: '100%' }}>
-          {!isProcessing && 
-            <Button type='submit' variant='contained' size='small' color='primary'>SUBMIT</Button>
-          }
-          {isProcessing && 
-            <Button type='submit' variant='contained' size='medium' color='primary' disabled>PROCESSING...</Button>
-          }
-          <Button type='cancel' variant='contained' color='secondary' size='small' onClick={resetFields}>CANCEL</Button>
-        </div>
+      <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent:'space-between', alignItems:'center', width: '100%' }}>
+        {!isProcessing && 
+          <Button type='submit' variant='contained' size='small' color='primary'>SUBMIT</Button>
+        }
+        {isProcessing && 
+          <Button type='submit' variant='contained' size='medium' color='primary' disabled>PROCESSING...</Button>
+        }
+        <Button type='cancel' variant='contained' color='secondary' size='small' onClick={resetFields}>CANCEL</Button>
+      </div>
 
         <ResponseComponent 
           message={responseMessage.message} 

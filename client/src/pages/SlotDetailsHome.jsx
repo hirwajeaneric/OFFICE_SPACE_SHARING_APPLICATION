@@ -8,6 +8,7 @@ import RentRequestForm from '../components/forms/RentRequestForm';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSlotDetails } from '../redux/features/slotSlice';
+import { getOfficeSpaceDetails } from '../redux/features/officeSpaceSlice';
 
 export default function SlotDetailsHome() {
   const navigate = useNavigate();
@@ -20,10 +21,11 @@ export default function SlotDetailsHome() {
   // FETCH SLOT DETAILS 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('usrInfo')));
-    
+    dispatch(getOfficeSpaceDetails({officeSpaceId: params.id}));
     dispatch(getSlotDetails({slotId: params.slotId}));
-  },[dispatch, params.slotId]);
+  },[dispatch, params.id, params.slotId]);
 
+  const { selectedOfficeSpace } = useSelector((state) => state.officeSpace);
   const { selectedSlot, isLoading } = useSelector((state) => state.slot);
 
   return (
