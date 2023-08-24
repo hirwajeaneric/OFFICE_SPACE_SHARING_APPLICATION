@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import { TwoSidedContainer } from '../styled-components/generalComponents';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const SuccessPage = () => {
     const params = useParams();
@@ -25,9 +24,11 @@ const SuccessPage = () => {
     },[params.fullName, params.slotId, params.userId])
 
     return (
-        <TwoSidedContainer style={{ flexDirection:'row', marginTop: '20px', alignItems:'flex-start', width: '100%', background: 'white', border: '1px solid #d1e0e0', padding: '20px', borderRadius: '5px' }}>
-            Success
-        </TwoSidedContainer>
+        <div style={{ display: 'flex', flexDirection:'column', gap: '20px', marginTop: '20px', alignItems:'flex-start', width: '100%', background: 'white', border: '1px solid #d1e0e0', padding: '20px', borderRadius: '5px' }}>
+            <h1 style={{ fontSize: '400%', color: 'green' }}>Success</h1>
+            <p>Slot successfuly booked.</p>
+            <Link to='../rented-slots' style={{ textDecoration: 'none', color: 'blue' }}>View your rented slots</Link>
+        </div>
     )
 }
 
