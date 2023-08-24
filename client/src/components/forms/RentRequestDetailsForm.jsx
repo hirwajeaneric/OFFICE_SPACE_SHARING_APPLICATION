@@ -151,7 +151,7 @@ export default function RentRequestDetailsForm() {
           <p><strong>Response:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.response}</span></p>
           {selectedRentRequest.status === 'Accepted' && <p>
             {!isProcessing3 && 
-              <Button onClick={() => { checkout({ price: Number(slotInfo.price), product: `Book slot ${selectedRentRequest.slotId}`})}}>Book now with stripe</Button>   
+              <Button onClick={() => { checkout({ price: Number(slotInfo.price), product: `Book slot ${selectedRentRequest.slotId}`})}}>Pay for slot</Button>   
             }
             {isProcessing3 && 
               <Button type='submit' variant='contained' size='medium' color='primary' disabled>PROCESSING...</Button>

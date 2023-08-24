@@ -69,8 +69,8 @@ export default function SlotDetailsHome() {
               {/* CALL TO ACTION MESSAGES  */}
               {user !== null && selectedSlot.status === 'available' && selectedSlot.ownerId !== user.id ?
                 <>
-                  <HeaderTwo>Do you want to Rent this Apartment?</HeaderTwo>
-                  <p style={{ fontWeight: '400', margin: '20px 0', lineHeight: '23px' }}>Fill in the form bellow to reserve the permission to rent this Apartment.</p>
+                  <HeaderTwo>Do you want to Rent this slot?</HeaderTwo>
+                  <p style={{ fontWeight: '400', margin: '20px 0', lineHeight: '23px' }}>Fill in the form bellow to reserve the permission to rent this slot.</p>
                 </>
                 :
                 user !== null && selectedSlot.status === 'For Join' && selectedSlot.ownerId !== user.id && !postedByMe ?
