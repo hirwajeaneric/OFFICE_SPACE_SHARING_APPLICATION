@@ -56,16 +56,14 @@ const Signin = () => {
 
       axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/user/signin` , formData)
       .then(response => {
-        setTimeout(()=>{
-          if (response.status === 200) {
-            const { token, ...userInfo } = response.data.user;
-            
-            setProgress({ value: '', disabled: false });
-            localStorage.setItem('usrInfo', JSON.stringify(userInfo));
-            localStorage.setItem('usrTkn', token);
-            window.location.replace('/');
-          }
-        }, 2000); 
+        if (response.status === 200) {
+          const { token, ...userInfo } = response.data.user;
+          
+          setProgress({ value: '', disabled: false });
+          localStorage.setItem('usrInfo', JSON.stringify(userInfo));
+          localStorage.setItem('usrTkn', token);
+          window.location.replace('/');
+        }
       })
       .catch(error => {
         if (error.response && error.response.status >= 400 && error.response.status <= 500) {

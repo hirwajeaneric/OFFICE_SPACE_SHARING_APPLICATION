@@ -13,7 +13,7 @@ const columns = [
   {
     field: 'price',
     headerName: 'Price',
-    width: 80,
+    width: 100,
   },
   {
     field: 'status',
@@ -23,22 +23,17 @@ const columns = [
   {
     field: 'occupantName',
     headerName: 'Occupant',
-    width: 90,
-  },
-  {
-    field: 'occupantPhone',
-    headerName: 'Phone of occupant',
-    width: 90,
+    width: 200,
   },
   {
     field: 'occupiedOn',
     headerName: 'Occupied on',
-    width: 80,
+    width: 200,
   },
   {
     field: 'dimensions',
     headerName: 'Dimensions',
-    width: 95,
+    width: 100,
   },
   {
     field: 'actions',
@@ -95,8 +90,7 @@ const TableActions = ({parameters}) => {
     <Box>
       <Tooltip title='View / Edit'>
         <IconButton onClick={() => {  
-          navigate(`/user/${params.fullName}/slot/${parameters.row._id}`);
-          }}>
+          navigate(`/user/${params.fullName}/slot/${parameters.row._id}`);}}>
           <Preview />
         </IconButton>
       </Tooltip>

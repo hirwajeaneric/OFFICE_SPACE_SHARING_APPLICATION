@@ -30,6 +30,7 @@ import ContactUs from './pages/ContactUs';
 import { getUserDetails } from './redux/features/userSlice';
 import SlotDetailsUserAccount from './pages/SlotDetailsUserAccount';
 import SlotDetailsHome from './pages/SlotDetailsHome';
+import SuccessPage from './components/sections/SuccessPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ function App() {
               <Route path='space/:id' element={<PropertyDetailsUserAccount />} />
               <Route path='slot/:slotId' element={<SlotDetailsUserAccount />} />
               <Route path='rent-request/:rentRequestId' element={<RentRequestDetails />} />
+              <Route path='success/:slotId/:userId' element={<SuccessPage />} />
               <Route path='tenant/:tenantId' element={<TenantInfo />} />
             </Route>
           </Route>

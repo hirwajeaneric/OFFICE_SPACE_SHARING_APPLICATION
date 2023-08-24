@@ -6,14 +6,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRentRequestDetails, getRentRequests } from '../../redux/features/rentRequestsSlice';
 import axios from 'axios';
 import ResponseComponent from '../sections/ResponseComponent';
+import { loadStripe } from '@stripe/stripe-js';
 
 export default function RentRequestDetailsForm() {
   
   // FORM PROCESSING AND RESPONSE PROVISION
   const [isProcessing, setIsProcessing] = useState(false);
   const [isProcessing2, setIsProcessing2] = useState(false);
+  const [isProcessing3, setIsProcessing3] = useState(false);
   const [responseMessage, setResponseMessage] = useState({ message: '', severity: ''});
   const [open, setOpen] = useState(false);
+  const [slotInfo, setSlotInfo] = useState({});
+  const params =  useParams();
+  const dispatch = useDispatch();
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -21,8 +26,7 @@ export default function RentRequestDetailsForm() {
     setOpen(false);
   };
 
-  const params =  useParams();
-  const dispatch = useDispatch();
+  const { selectedRentRequest, isLoading } = useSelector((state) => state.rentRequest);
 
   // OTHER STATES
   const [formData, setFormData] = useState({
@@ -31,14 +35,60 @@ export default function RentRequestDetailsForm() {
     status: '',
   });
 
+  // Fetching data on load
   useEffect(() => {
     dispatch(getRentRequestDetails({ rentRequestId: params.rentRequestId}));
+
+    // Fetching rent request and slot info to get price
+    axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/findById?id=${params.rentRequestId}`)
+    .then(response => {
+      if (response.status === 200) {
+        axios.get(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/slot/findById?id=${response.data.rentRequest.slotId}`)
+        .then(response => {
+          setSlotInfo(response.data.slot);
+        })
+        .catch(error => console.error(error))
+      }
+    })
+    .catch(error => console.error(error));
+
   },[dispatch, params])
 
+  // Form input handler
   const handleFormInputs = event => {
     setFormData({ ...formData, [event.target.name] : event.target.value });
   }
 
+
+  // Stripe checkout ********************************************************************
+  const checkout = async ({price, product}) => {
+    const stripePromise = await loadStripe('pk_test_51NMcIBKvflDqv8zXuSuwFuq7kVKzx6mxFKEBvRpW7m4hVIJPxYJZP2L2EyGezcg0xJeJIRvl9vnpBkFqZ9FZ0dpc00zYt2Nbm4');
+    
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }
+    
+    const data = JSON.stringify({
+      price: price,
+      product: product,
+      slotId: slotInfo._id, 
+      userName: selectedRentRequest.fullName.split(' ').join(''),
+      userId: selectedRentRequest.requestingUserId,
+    })
+    
+    setIsProcessing3(true);
+
+    axios.post(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/create-checkout-session`, data, config)
+    .then(response => {
+      const session = response.data;
+      stripePromise.redirectToCheckout({ sessionId: session.id });
+    })
+    .catch(error => console.error(error));
+  };
+
+  // Submit rent request response ***************************************************
   const submitRequest = (status) => {
     formData.status = status;
 
@@ -47,8 +97,6 @@ export default function RentRequestDetailsForm() {
     } else if (status === 'Rejected') {
       setIsProcessing2(true);
     }
-
-    console.log(formData);
 
     axios.put(`${process.env.REACT_APP_SERVERURL}/api/v1/ossa/rentRequest/update?id=${params.rentRequestId}`, formData)
     .then(response => {
@@ -75,8 +123,6 @@ export default function RentRequestDetailsForm() {
     })
   }
 
-  const { selectedRentRequest, isLoading } = useSelector((state) => state.rentRequest);
-
   if (isLoading) {
     return (
       <p style={{ marginTop : '30px' }}>Loading...</p>
@@ -93,7 +139,7 @@ export default function RentRequestDetailsForm() {
         <p><strong>Message:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.comment}</span></p>
         <p><strong>Line of activity:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.activityDescription}</span></p>
         <p><strong>Status:</strong> <span>{selectedRentRequest.status}</span></p>
-        <p><Link to={`/space/${selectedRentRequest.officeSpaceId}/slot/${selectedRentRequest.slotId}`} style={{ color: 'blue', textDecoration: 'none' }}>View Slot</Link></p>
+        <p><Link to={`/space/${selectedRentRequest.officeSpaceId}/slot/${selectedRentRequest.slotId}`} style={{ color: 'blue', textDecoration: 'none' }}>View slot</Link></p>
       </LeftContainer>
 
       <RightContainer style={{ flexDirection: 'column', justifyContent:'flex-start', alignItems: 'flex-start' }}>
@@ -103,6 +149,14 @@ export default function RentRequestDetailsForm() {
         <div style={{ display:'flex', flexDirection: 'column', gap: '20px', justifyContent:'flex-start', alignItems:'flex-start', width: '100%' }}>
           <p><strong>Status:</strong> <span>{selectedRentRequest.status}</span></p>
           <p><strong>Response:</strong> <span style={{ lineHeight:'25px' }}>{selectedRentRequest.response}</span></p>
+          {selectedRentRequest.status === 'Accepted' && <p>
+            {!isProcessing3 && 
+              <Button onClick={() => { checkout({ price: Number(slotInfo.price), product: `Book slot ${selectedRentRequest.slotId}`})}}>Book now with stripe</Button>   
+            }
+            {isProcessing3 && 
+              <Button type='submit' variant='contained' size='medium' color='primary' disabled>PROCESSING...</Button>
+            }
+          </p>}
         </div> 
         :
         <form style={{ display: 'flex', flexDirection:'column', justifyContent:'flex-start', alignItems:'flex-start', width: '100%' }}>

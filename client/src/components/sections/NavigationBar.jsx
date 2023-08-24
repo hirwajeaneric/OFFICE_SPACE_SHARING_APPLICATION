@@ -64,7 +64,7 @@ export default function NavigationBar() {
                 </IconButton>
                 <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem>{userInfo.fullName}</MenuItem>
-                  <MenuItem onClick={() => { navigate(`/user/${userInfo.fullName.split(' ').join('')}/settings`); handleClose(); }}>Profile/Settings</MenuItem>
+                  <MenuItem onClick={() => { window.location.replace(`/user/${userInfo.fullName.split(' ').join('')}/settings`); handleClose(); }}>Profile/Settings</MenuItem>
                   <MenuItem onClick={() => { signout(); handleClose(); }}>Log out</MenuItem>
                 </Menu>
               </div>

@@ -110,7 +110,8 @@ export default function PostOfficeSpaceForm() {
           // setResponseMessage({ message: 'Redirecting to payment page', severity: 'success' });
           // setOpen(true);
           setProgress({ value: '', disabled: false });
-          window.location.replace('https://book.stripe.com/test_9AQaH5dbydfG03S4gg');
+          window.location.replace('/');
+          // window.location.replace('https://book.stripe.com/test_9AQaH5dbydfG03S4gg');
         }
       })
       .catch(error => {

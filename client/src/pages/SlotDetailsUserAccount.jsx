@@ -44,7 +44,7 @@ export default function SlotDetailsUserAccount() {
             
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',width: '100%' }}>
               <HeaderTwo>Slot Details</HeaderTwo>
-              <Link style={{ textDecoration: 'none', color: 'green', }} to={`../space/${formData.spaceId}`}>Go Back</Link>
+              { formData.occupantId !== userData.id && <Link style={{ textDecoration: 'none', color: 'green', }} to={`../space/${formData.spaceId}`}>Go Back</Link>}
             </div>
 
             <SlotDetailsForm 
