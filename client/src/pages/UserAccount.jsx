@@ -26,34 +26,36 @@ export default function UserAccount() {
       <PageSizedContainer>
         <PageWithSideMenuContainer style={{ margin: '40px 0', padding: '10px' }}>
           {isLoading ? 
-          <p>Loading...</p> :
+            <p>Loading...</p> :
           <>
             <div className='leftSide'>
-              <SideMenu>
+              <SideMenu style={{ background: numberOfOwnedOfficeSpaces !==0 && '#004466', color: numberOfOwnedOfficeSpaces !==0 && 'white' }}>
                 <HeaderThree>Office spaces</HeaderThree>
-                <NavLink to={'overview'}>
+                <NavLink to={'overview'} style={{ color: numberOfOwnedOfficeSpaces !==0 && 'white' }}>
                   <span>Overview</span> 
                 </NavLink>
-                <NavLink to={'owned-spaces'}>
-                  <span>Owned spaces</span> 
-                  <span className='quantity'>{numberOfOwnedOfficeSpaces}</span>
-                </NavLink>
+                {numberOfOwnedOfficeSpaces !==0 && 
+                  <NavLink to={'owned-spaces'}>
+                    <span style={{ color: numberOfOwnedOfficeSpaces !==0 && 'white' }}>Owned spaces</span> 
+                    <span className='quantity'>{numberOfOwnedOfficeSpaces}</span>
+                  </NavLink>
+                }
                 <NavLink to={'rented-slots'}>
-                  <span>Rented slots</span> 
+                  <span style={{ color: numberOfOwnedOfficeSpaces !==0 && 'white' }}>Rented slots</span> 
                   <span className='quantity'>{numberOfRentedSlots}</span>
                 </NavLink>
                 
                 <HeaderThree className='menu-header'>Requests</HeaderThree>
                 
                 <NavLink to={'rent-requests/all/sent'}>
-                  <span>Rent Requests</span> 
+                  <span style={{ color: numberOfOwnedOfficeSpaces !==0 && 'white' }}>Rent Requests</span> 
                   <span className='quantity'>{numberOfRentRequestsSentByMe+numberOfRentRequestsSentToMe}</span>
                 </NavLink>
 
                 <HeaderThree className='menu-header'>Settings</HeaderThree>
                 
                 <NavLink to={'settings'}>
-                  <span>My Account</span> 
+                  <span style={{ color: numberOfOwnedOfficeSpaces !==0 && 'white' }}>My Account</span> 
                 </NavLink>
               </SideMenu>
             </div>
