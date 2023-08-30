@@ -16,6 +16,7 @@ export default function SlotDetailsForm(props) {
   const params = useParams();
   const [userData, setUserData] = useState({});
 
+  // Fetch user info
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem('usrInfo')));
   },[]);
@@ -49,7 +50,8 @@ export default function SlotDetailsForm(props) {
     e.preventDefault();
 
     var config = {};
-    var data = formData; 
+    var data = formData;
+     
     delete data['_id'];
     delete data['__v'];
 

@@ -31,27 +31,27 @@ const attachFile = async (req, res, next) => {
     const { query, body, files } = req;
 
     // Check if there is an slot already
-    if (query.id) {
+    if (query.id && files) {
         const  existingSlot = await SlotModel.findById(query.id);
         
         if ( existingSlot &&  existingSlot.pictures.length !== 0) {
-            if (files) {
-                pics =  existingSlot.pictures;
-                files.forEach(file => {
-                    pics.push(file.filename); 
-                });
-            }
+            pics =  existingSlot.pictures;
+            files.forEach(file => {
+                pics.push(file.filename); 
+            });
         } else if ( existingSlot &&  existingSlot.pictures.length === 0) {
-            if (files) {
-                pics =  files[0].filename;
-            }
+            pics =  files[0].filename;
         } else if (!existingSlot) {
             throw new BadRequestError(`Not found!`);
         }
-    } 
-
-    req.body.pictures = pics;
+        
+        req.body.pictures = pics;
+    }
     
+    if (!query.id && files) {
+        req.body.pictures = files[0].filename;
+    }
+
     console.log('Body');
     console.log(req.body);
     next();
