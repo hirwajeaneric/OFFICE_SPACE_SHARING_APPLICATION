@@ -25,7 +25,9 @@ const upload = multer({
 
 // Middleware for attaching files to the request body before saving.
 const attachFile = async (req, res, next) => {
-    req.body.picture = req.file.filename;
+    if (req.file) {
+        req.body.picture = req.file.filename;
+    }
     next();
 }
 

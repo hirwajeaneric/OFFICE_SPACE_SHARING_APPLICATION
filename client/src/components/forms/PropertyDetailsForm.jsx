@@ -6,6 +6,7 @@ import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TypesOfOfficeSpaces } from '../../utils/TypesOfOfficeSpaces';
+import { useSelector } from 'react-redux';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -16,12 +17,12 @@ export default function PropertyDetailsForm(props) {
   const params = useParams();
   const [userData, setUserData] = useState({});
 
+  // Fetch user info 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem('usrInfo')));
   },[params.officeSpaceId]);
 
   const [picture, setPicture] = useState('');
-  
   const [progress, setProgress] = useState({ value: '', disabled: false});
   const [open, setOpen] = useState(false);
   const [responseMessage, setResponseMessage] = useState({ message: '', severity: ''})
@@ -82,6 +83,8 @@ export default function PropertyDetailsForm(props) {
     });
   };
 
+  const { numberOfSlotsForOfficeSpace, numberOfAvailableSlots } = useSelector(state => state.slot);
+
   return (
     <TopLeftFlexAlignedContainer onSubmit={handleUpdateProperty} style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', paddingBottom: '20px', border: '1px solid #d1e0e0', borderRadius: '5px', background: 'white' }}>
       <OfficeSpaceDetailsContainer>
@@ -96,7 +99,7 @@ export default function PropertyDetailsForm(props) {
               <TextField id="description" style={{ width: '100%' }} size='small' label="description" multiline rows={4} variant="outlined" name='description' value={formData.description || ''} onChange={handleChange} />
               <CustomFormControlOne style={{ width: '100%' }} size='small'>
                 <InputLabel id="status">Type of space</InputLabel>
-                <Select labelId="Status" id="status" name='status' value={formData.status} onChange={handleChangeSlotStatus} label="Type of space">
+                <Select labelId="Status" id="status" name='status' value={formData.officeSpaceType} onChange={handleChangeSlotStatus} label="Type of space">
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
@@ -107,7 +110,7 @@ export default function PropertyDetailsForm(props) {
                   })}
                 </Select>
               </CustomFormControlOne>
-            <TextField id="location" style={{ width: '100%' }} size='small' label="Location" variant="outlined" name='location' value={formData.location || ''} onChange={handleChange}/>
+              <TextField id="location" style={{ width: '100%' }} size='small' label="Location" variant="outlined" name='location' value={formData.location || ''} onChange={handleChange}/>
             </div>
             <div className="right">
               <TextField id="mapCoordinates" style={{ width: '100%' }} size='small' label="Map Coordinates" variant="outlined" name='mapCoordinates' value={formData.mapCoordinates || ''} onChange={handleChange} />
@@ -123,14 +126,13 @@ export default function PropertyDetailsForm(props) {
             <div className="left">
               <p>Description: <span>{formData.description}</span></p>
               <p>Space type: <span>{formData.officeSpaceType}</span></p>
-              <p>Number of slots: <span>{formData.numberOfSlots}</span></p>
-              <p>Available slots: <span>{formData.availableSlots}</span></p>
+              <p>Number of slots: <span>{numberOfSlotsForOfficeSpace}</span></p>
+              <p>Available slots: <span>{numberOfAvailableSlots}</span></p>
             </div>
             <div className="right">
-              <p>Description: <span>{formData.location}</span></p>
-              <p>Description: <span>{formData.mapCoordinates}</span></p>
-              <p>Description: <span>{formData.lastUpdated}</span></p>
-              <p>Description: <span>{formData.ownerName}</span></p>
+              <p>Location: <span>{formData.location}</span></p>
+              <p>Last updated: <span>{new Date(formData.lastUpdated).toDateString()}</span></p>
+              <p>Owner name: <span>{formData.ownerName}</span></p>
             </div>
           </div>
         }

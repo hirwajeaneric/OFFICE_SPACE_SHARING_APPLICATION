@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { CustomFormControlOne, OfficeSpaceDetailsContainer, TopLeftFlexAlignedContainer } from '../styled-components/generalComponents'
-import { TextField, InputLabel, MenuItem, Select, Button } from '@mui/material';
+import { OfficeSpaceDetailsContainer, TopLeftFlexAlignedContainer } from '../styled-components/generalComponents'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { TypesOfOfficeSpaces } from '../../utils/TypesOfOfficeSpaces';
-import LocationMap from '../sections/LocationMap';
+import { useSelector } from 'react-redux';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -32,18 +30,6 @@ export default function PropertyDetailsFormHome(props) {
       return;
     }
     setOpen(false);
-  };
-
-  const handleChangeOfficeSpaceType = (event) => {
-    setFormData({...formData, officeSpaceType: event.target.value});
-  };
-
-  const handleFileInput = (e) => {
-    setPicture(e.target.files[0]);
-  }
-
-  const handleChange = ({currentTarget: input}) => { 
-    setFormData({...formData, [input.name]: input.value}) 
   };
 
   const handleUpdateProperty = (e) => {
@@ -83,6 +69,8 @@ export default function PropertyDetailsFormHome(props) {
     });
   };
 
+  const { numberOfSlotsForOfficeSpace, numberOfAvailableSlots } = useSelector(state => state.slot);
+
   return (
     <TopLeftFlexAlignedContainer onSubmit={handleUpdateProperty} style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-tart', gap: '20px', paddingBottom: '20px', border: '1px solid #d1e0e0', borderRadius: '5px', background: 'white' }}>
       <OfficeSpaceDetailsContainer>
@@ -93,8 +81,8 @@ export default function PropertyDetailsFormHome(props) {
           <div className="left">
             <p>Description: <span>{formData.description}</span></p>
             <p>Space type: <span>{formData.officeSpaceType}</span></p>
-            <p>Number of slots: <span>{formData.numberOfSlots}</span></p>
-            <p>Available slots: <span>{formData.availableSlots}</span></p>
+            <p>Number of slots: <span>{numberOfSlotsForOfficeSpace}</span></p>
+            <p>Available slots: <span>{numberOfAvailableSlots}</span></p>
           </div>
           <div className="right">
             <p>Owner/Agent: <span>{formData.ownerName}</span></p>

@@ -31,6 +31,7 @@ import { getUserDetails } from './redux/features/userSlice';
 import SlotDetailsUserAccount from './pages/SlotDetailsUserAccount';
 import SlotDetailsHome from './pages/SlotDetailsHome';
 import SuccessPage from './components/sections/SuccessPage';
+import { getAllAvailableSlots } from './redux/features/slotSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -41,8 +42,10 @@ function App() {
       dispatch(getUserDetails({ userId: user.id}));
       dispatch(getOfficeSpaces());
       dispatch(getRentRequests({userId: user.id}));
+      dispatch(getAllAvailableSlots());
     } else {
       dispatch(getOfficeSpaces());
+      dispatch(getAllAvailableSlots());
     }
   }, [dispatch]);
 

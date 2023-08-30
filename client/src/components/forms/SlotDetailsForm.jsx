@@ -35,7 +35,7 @@ export default function SlotDetailsForm(props) {
   };
 
   const handleChangeSlotStatus = (event) => {
-    setFormData({...formData, officeSpaceType: event.target.value});
+    setFormData({...formData, status: event.target.value});
   };
 
   const handleFileInput = (e) => {
